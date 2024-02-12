@@ -1,0 +1,15 @@
+﻿@model IEnumerable<WebPrestadores.Models.Usuario>
+
+<div>
+    <h2>Todos os Usuários</h2>
+</div>
+<hr />
+<h3>Quantidade: @ViewBag.Total</h3>
+<hr />
+
+@foreach (var usuario in Model)
+{
+    <div>
+        <h4>@usuario.Nome</h4>
+    </div>
+}
