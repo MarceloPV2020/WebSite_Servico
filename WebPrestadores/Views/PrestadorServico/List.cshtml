@@ -1,0 +1,14 @@
+﻿@model PrestadorServicoListViewModel
+
+<div>
+    <h2>@Model.TipoServicoAtual</h2>
+</div>
+
+<div class="container">
+    <div class="row">
+        @foreach (var prestador in Model.PrestadoresServico)
+        {
+            <partial name="_PrestadorServicoResumo" for="@prestador" />
+        }
+    </div>
+</div>

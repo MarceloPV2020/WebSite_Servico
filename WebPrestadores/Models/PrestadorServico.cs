@@ -19,7 +19,7 @@ namespace WebPrestadores.Models
         [MaxLength(200, ErrorMessage = "Descrição deve possuir no máximo {1} caracteres!")]
         public string Descricao { get; set; }
 
-        [Display(Name = "Caminho Imagem Normal")]
+        [Display(Name = "Imagem")]
         [StringLength(200, ErrorMessage = "O {0} deve ter no máximo {1} caracteres")]
         public string ImagemUrl { get; set; }
 
