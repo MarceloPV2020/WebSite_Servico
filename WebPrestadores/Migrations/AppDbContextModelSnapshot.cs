@@ -21,6 +21,37 @@ namespace WebPrestadores.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("WebPrestadores.Models.PrestadorServico", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Descricao")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("ImagemUrl")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("TipoServicoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TipoServicoId");
+
+                    b.ToTable("PrestadorServico");
+                });
+
             modelBuilder.Entity("WebPrestadores.Models.TipoServico", b =>
                 {
                     b.Property<int>("Id")
@@ -31,6 +62,10 @@ namespace WebPrestadores.Migrations
 
                     b.Property<string>("Descricao")
                         .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("ImagemUrl")
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
@@ -57,23 +92,15 @@ namespace WebPrestadores.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<bool>("Prestador")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("TipoServicoId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("TipoServicoId");
 
                     b.ToTable("Usuario");
                 });
 
-            modelBuilder.Entity("WebPrestadores.Models.Usuario", b =>
+            modelBuilder.Entity("WebPrestadores.Models.PrestadorServico", b =>
                 {
                     b.HasOne("WebPrestadores.Models.TipoServico", "TipoServico")
-                        .WithMany("Usuarios")
+                        .WithMany("PrestadoresServico")
                         .HasForeignKey("TipoServicoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -83,7 +110,7 @@ namespace WebPrestadores.Migrations
 
             modelBuilder.Entity("WebPrestadores.Models.TipoServico", b =>
                 {
-                    b.Navigation("Usuarios");
+                    b.Navigation("PrestadoresServico");
                 });
 #pragma warning restore 612, 618
         }

@@ -14,11 +14,5 @@ namespace WebPrestadores.Models
         [MinLength(5, ErrorMessage = "Nome deve possuir no mínimo {1} caracteres!")]
         [MaxLength(100, ErrorMessage = "Nome deve possuir no máximo {1} caracteres!")]
         public string Nome { get; set; }
-
-        [Required]
-        public bool Prestador { get; set; }
-
-        public int TipoServicoId { get; set; }
-        public virtual TipoServico TipoServico { get; set; }
     }
 }

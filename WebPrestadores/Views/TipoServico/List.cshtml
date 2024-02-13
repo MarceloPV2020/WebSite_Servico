@@ -1,0 +1,18 @@
+﻿@model IEnumerable<WebPrestadores.Models.TipoServico>
+
+<div>
+    <h2>Todos os Tipos de Serviços</h2>
+</div>
+
+<div class="container">
+    <div class="row">
+        @foreach (var tipo in Model)
+        {
+            <div class="col-sm-4 col-md-4 col-lg-4">
+                <h2>@tipo.Nome</h2>
+                <p><img src="@tipo.ImagemUrl"></p>                
+                <h6>@tipo.Descricao</h6>
+            </div>
+        }
+    </div>
+</div>

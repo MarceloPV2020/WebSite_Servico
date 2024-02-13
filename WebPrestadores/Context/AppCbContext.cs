@@ -11,5 +11,6 @@ namespace WebPrestadores.Context
 
         public DbSet<TipoServico> TipoServico { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
+        public DbSet<PrestadorServico> PrestadorServico { get; set; }
     }
 }
