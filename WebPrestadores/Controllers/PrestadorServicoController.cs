@@ -40,5 +40,33 @@ namespace WebPrestadores.Controllers
                 };
             return View(prestadoresListViewModel);
         }
+
+        public ViewResult Search(string searchString)
+        {
+            IEnumerable<PrestadorServico> prestadores;
+            string tipoServicoAtual = string.Empty;
+
+            if (string.IsNullOrEmpty(searchString))
+            {
+                prestadores = _prestadorServicoRepository.Prestadores.OrderBy(p => p.Id);
+                tipoServicoAtual = "Todos os Prestadores";
+            }
+            else
+            {
+                prestadores = _prestadorServicoRepository.Prestadores.Where(p => p.Nome.ToLower().Contains(searchString.ToLower()));
+                if (prestadores.Any())
+                    tipoServicoAtual = "Prestadores";
+                else
+                    tipoServicoAtual = "Nenhum prestador foi encontrado";
+            }
+
+            return View
+                ("~/Views/PrestadorServico/List.cshtml",
+                new PrestadorServicoListViewModel
+                {
+                    PrestadoresServico = prestadores,
+                    TipoServicoAtual = tipoServicoAtual
+                });
+        }
     }
 }
