@@ -30,6 +30,11 @@ public class Startup
                 {
                     politica.RequireRole("Admin");
                 });
+            options.AddPolicy("User",
+                politica =>
+                {
+                    politica.RequireRole("User");
+                });
         });
         services.AddSession();
         services.AddControllersWithViews();
@@ -63,7 +68,7 @@ public class Startup
         {
             endpoints.MapControllerRoute(
              name: "areas",
-             pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
+             pattern: "{area:exists}/{controller=User}/{action=Index}/{id?}");
 
             endpoints.MapControllerRoute(
                name: "tipoServicoFiltro",

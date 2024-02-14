@@ -16,10 +16,10 @@ namespace WebPrestadores.Services
 
         public void SeedRoles()
         {
-            if (!_roleManager.RoleExistsAsync("Member").Result)
+            if (!_roleManager.RoleExistsAsync("User").Result)
             {
                 IdentityRole role = new IdentityRole();
-                role.Name = "Member";
+                role.Name = "User";
                 role.NormalizedName = role.Name.ToUpper();
                 IdentityResult roleResult = _roleManager.CreateAsync(role).Result;
             }
@@ -34,10 +34,10 @@ namespace WebPrestadores.Services
 
         public void SeedUsers()
         {
-            if (_userManager.FindByEmailAsync("usuario@localhost").Result == null)
+            if (_userManager.FindByEmailAsync("user@localhost").Result == null)
             {
                 IdentityUser user = new IdentityUser();
-                user.Email = "usuario@localhost";
+                user.Email = "user@localhost";
                 user.UserName = user.Email;
                 user.NormalizedUserName = user.Email.ToUpper();
                 user.NormalizedEmail = user.Email.ToUpper();
