@@ -12,14 +12,14 @@ using WebPrestadores.Context;
 namespace WebPrestadores.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240214130130_AdicionarIdentity")]
-    partial class AdicionarIdentity
+    [Migration("20240214204142_Categoria")]
+    partial class Categoria
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.1")
+                .HasAnnotation("ProductVersion", "6.0.27")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -222,38 +222,7 @@ namespace WebPrestadores.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("WebPrestadores.Models.PrestadorServico", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Descricao")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("ImagemUrl")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("TipoServicoId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TipoServicoId");
-
-                    b.ToTable("PrestadorServico");
-                });
-
-            modelBuilder.Entity("WebPrestadores.Models.TipoServico", b =>
+            modelBuilder.Entity("WebPrestadores.Models.CategoriaServico", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -277,7 +246,43 @@ namespace WebPrestadores.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TipoServico");
+                    b.ToTable("CategoriaServico");
+                });
+
+            modelBuilder.Entity("WebPrestadores.Models.PrestadorServico", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CategoriaServicoId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Descricao")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("ImagemUrl")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("PrestacaoCidade")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoriaServicoId");
+
+                    b.ToTable("PrestadorServico");
                 });
 
             modelBuilder.Entity("WebPrestadores.Models.Usuario", b =>
@@ -288,10 +293,49 @@ namespace WebPrestadores.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("AspNetUsersId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Contabilidade")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("EnderecoBairro")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("EnderecoCep")
+                        .IsRequired()
+                        .HasMaxLength(9)
+                        .HasColumnType("nvarchar(9)");
+
+                    b.Property<string>("EnderecoCidade")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("EnderecoDescricao")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("EnderecoNumero")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("EnderecoUf")
+                        .IsRequired()
+                        .HasMaxLength(2)
+                        .HasColumnType("nvarchar(2)");
+
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("Prestador")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -351,16 +395,16 @@ namespace WebPrestadores.Migrations
 
             modelBuilder.Entity("WebPrestadores.Models.PrestadorServico", b =>
                 {
-                    b.HasOne("WebPrestadores.Models.TipoServico", "TipoServico")
+                    b.HasOne("WebPrestadores.Models.CategoriaServico", "CategoriaServico")
                         .WithMany("PrestadoresServico")
-                        .HasForeignKey("TipoServicoId")
+                        .HasForeignKey("CategoriaServicoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("TipoServico");
+                    b.Navigation("CategoriaServico");
                 });
 
-            modelBuilder.Entity("WebPrestadores.Models.TipoServico", b =>
+            modelBuilder.Entity("WebPrestadores.Models.CategoriaServico", b =>
                 {
                     b.Navigation("PrestadoresServico");
                 });

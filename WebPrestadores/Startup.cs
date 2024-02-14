@@ -20,7 +20,7 @@ public class Startup
     {
         services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
-        services.AddTransient<ITipoServicoRepository, TipoServicoRepository>();
+        services.AddTransient<ICategoriaServicoRepository, CategoriaServicoRepository>();
         services.AddTransient<IPrestadorServicoRepository, PrestadorServicoRepository>();
         services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
         services.AddAuthorization(options =>
@@ -71,8 +71,8 @@ public class Startup
              pattern: "{area:exists}/{controller=User}/{action=Index}/{id?}");
 
             endpoints.MapControllerRoute(
-               name: "tipoServicoFiltro",
-               pattern: "PrestadorServico/{action}/{tipoServico?}",
+               name: "categoriaServicoFiltro",
+               pattern: "PrestadorServico/{action}/{categoriaServico?}",
                defaults: new { Controller = "PrestadorServico", action = "List" });
 
             endpoints.MapControllerRoute(

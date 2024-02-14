@@ -49,7 +49,7 @@ namespace WebPrestadores.Services
 
                 if (result.Succeeded)
                 {
-                    _userManager.AddToRoleAsync(user, "Member").Wait();
+                    _userManager.AddToRoleAsync(user, "User").Wait();
                 }
             }
 

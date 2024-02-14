@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebPrestadores.Migrations
 {
-    public partial class AdicionarIdentity : Migration
+    public partial class Migracao : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -46,6 +46,43 @@ namespace WebPrestadores.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CategoriaServico",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nome = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Descricao = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    ImagemUrl = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CategoriaServico", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Usuario",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nome = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Prestador = table.Column<bool>(type: "bit", nullable: false),
+                    Contabilidade = table.Column<bool>(type: "bit", nullable: false),
+                    AspNetUsersId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EnderecoDescricao = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    EnderecoNumero = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    EnderecoBairro = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    EnderecoCep = table.Column<string>(type: "nvarchar(9)", maxLength: 9, nullable: false),
+                    EnderecoCidade = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    EnderecoUf = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Usuario", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -154,6 +191,29 @@ namespace WebPrestadores.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "PrestadorServico",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nome = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Descricao = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    ImagemUrl = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    PrestacaoCidade = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    CategoriaServicoId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PrestadorServico", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PrestadorServico_CategoriaServico_CategoriaServicoId",
+                        column: x => x.CategoriaServicoId,
+                        principalTable: "CategoriaServico",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -192,6 +252,11 @@ namespace WebPrestadores.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PrestadorServico_CategoriaServicoId",
+                table: "PrestadorServico",
+                column: "CategoriaServicoId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -212,10 +277,19 @@ namespace WebPrestadores.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "PrestadorServico");
+
+            migrationBuilder.DropTable(
+                name: "Usuario");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "CategoriaServico");
         }
     }
 }

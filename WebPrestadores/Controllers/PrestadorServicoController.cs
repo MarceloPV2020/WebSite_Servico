@@ -13,30 +13,30 @@ namespace WebPrestadores.Controllers
             _prestadorServicoRepository = prestadorServicoRepository;
         }
 
-        public IActionResult List(string tipoServico)
+        public IActionResult List(string categoriaServico)
         {
             IEnumerable<PrestadorServico> prestadoresServico;
-            string tipoServicoAtual = string.Empty;
+            string categoriaAtual = string.Empty;
 
-            if (string.IsNullOrEmpty(tipoServico))
+            if (string.IsNullOrEmpty(categoriaServico))
             {
                 prestadoresServico = _prestadorServicoRepository.Prestadores.OrderBy(l => l.Id);
-                tipoServicoAtual = "Todos os prestadores";
+                categoriaAtual = "Todos os prestadores";
             }
             else
             {
                 prestadoresServico = _prestadorServicoRepository.Prestadores
-                         .Where(l => l.TipoServico.Nome.Equals(tipoServico))
+                         .Where(l => l.CategoriaServico.Nome.Equals(categoriaServico))
                          .OrderBy(c => c.Nome);
 
-                tipoServicoAtual = tipoServico;
+                categoriaAtual = categoriaServico;
             }
 
             var prestadoresListViewModel =
                 new PrestadorServicoListViewModel
                 {
                     PrestadoresServico = prestadoresServico,
-                    TipoServicoAtual = tipoServicoAtual
+                    CategoriaServicoAtual = categoriaAtual
                 };
             return View(prestadoresListViewModel);
         }
@@ -65,7 +65,7 @@ namespace WebPrestadores.Controllers
                 new PrestadorServicoListViewModel
                 {
                     PrestadoresServico = prestadores,
-                    TipoServicoAtual = mensagem
+                    CategoriaServicoAtual = mensagem
                 });
         }
 
@@ -81,7 +81,7 @@ namespace WebPrestadores.Controllers
             }
             else
             {
-                prestadores = _prestadorServicoRepository.Prestadores.Where(p => p.TipoServico.Nome.ToLower().Contains(searchCategoriaString.ToLower()));
+                prestadores = _prestadorServicoRepository.Prestadores.Where(p => p.CategoriaServico.Nome.ToLower().Contains(searchCategoriaString.ToLower()));
                 if (prestadores.Any())
                     mensagem = "Prestadores";
                 else
@@ -93,7 +93,7 @@ namespace WebPrestadores.Controllers
                 new PrestadorServicoListViewModel
                 {
                     PrestadoresServico = prestadores,
-                    TipoServicoAtual = mensagem
+                    CategoriaServicoAtual = mensagem
                 });
         }
     }

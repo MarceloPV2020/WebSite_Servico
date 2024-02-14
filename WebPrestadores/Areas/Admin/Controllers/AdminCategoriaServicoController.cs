@@ -8,22 +8,20 @@ namespace WebPrestadores.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "Admin")]
-    public class AdminTipoServicoController : Controller
+    public class AdminCategoriaServicoController : Controller
     {
         private readonly AppDbContext _context;
 
-        public AdminTipoServicoController(AppDbContext context)
+        public AdminCategoriaServicoController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: Admin/AdminCategorias
         public async Task<IActionResult> Index()
         {
-            return View(await _context.TipoServico.ToListAsync());
+            return View(await _context.CategoriaServico.ToListAsync());
         }
 
-        // GET: Admin/AdminCategorias/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -31,38 +29,33 @@ namespace WebPrestadores.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var tipoServico = await _context.TipoServico.FirstOrDefaultAsync(m => m.Id == id);
-            if (tipoServico == null)
+            var categoriaServico = await _context.CategoriaServico.FirstOrDefaultAsync(m => m.Id == id);
+            if (categoriaServico == null)
             {
                 return NotFound();
             }
 
-            return View(tipoServico);
+            return View(categoriaServico);
         }
 
-        // GET: Admin/AdminCategorias/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/AdminCategorias/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,Descricao")] TipoServico tipoServico)
+        public async Task<IActionResult> Create([Bind("Id,Nome,Descricao")] CategoriaServico categoriaServico)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(tipoServico);
+                _context.Add(categoriaServico);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(tipoServico);
+            return View(categoriaServico);
         }
 
-        // GET: Admin/AdminCategorias/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -70,7 +63,7 @@ namespace WebPrestadores.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var categoria = await _context.TipoServico.FindAsync(id);
+            var categoria = await _context.CategoriaServico.FindAsync(id);
             if (categoria == null)
             {
                 return NotFound();
@@ -78,14 +71,11 @@ namespace WebPrestadores.Areas.Admin.Controllers
             return View(categoria);
         }
 
-        // POST: Admin/AdminCategorias/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Descricao")] TipoServico tipoServico)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Descricao")] CategoriaServico categoriaServico)
         {
-            if (id != tipoServico.Id)
+            if (id != categoriaServico.Id)
             {
                 return NotFound();
             }
@@ -94,12 +84,12 @@ namespace WebPrestadores.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(tipoServico);
+                    _context.Update(categoriaServico);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CategoriaExists(tipoServico.Id))
+                    if (!CategoriaExists(categoriaServico.Id))
                     {
                         return NotFound();
                     }
@@ -110,10 +100,9 @@ namespace WebPrestadores.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(tipoServico);
+            return View(categoriaServico);
         }
 
-        // GET: Admin/AdminCategorias/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -121,30 +110,29 @@ namespace WebPrestadores.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var tipoServico = await _context.TipoServico
+            var categoriaServico = await _context.CategoriaServico
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (tipoServico == null)
+            if (categoriaServico == null)
             {
                 return NotFound();
             }
 
-            return View(tipoServico);
+            return View(categoriaServico);
         }
 
-        // POST: Admin/AdminCategorias/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var categoria = await _context.TipoServico.FindAsync(id);
-            _context.TipoServico.Remove(categoria);
+            var categoria = await _context.CategoriaServico.FindAsync(id);
+            _context.CategoriaServico.Remove(categoria);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CategoriaExists(int id)
         {
-            return _context.TipoServico.Any(e => e.Id == id);
+            return _context.CategoriaServico.Any(e => e.Id == id);
         }
     }
 }

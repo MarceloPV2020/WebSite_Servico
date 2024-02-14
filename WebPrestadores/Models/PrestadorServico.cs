@@ -23,7 +23,12 @@ namespace WebPrestadores.Models
         [StringLength(200, ErrorMessage = "O {0} deve ter no máximo {1} caracteres")]
         public string ImagemUrl { get; set; }
 
-        public int TipoServicoId { get; set; }
-        public virtual TipoServico TipoServico { get; set; }
+        [Required(ErrorMessage = "A cidade de prestação do serviço deve ser informada!")]
+        [Display(Name = "Cidade de Prestação")]
+        [MaxLength(100, ErrorMessage = "Cidade deve possuir no máximo {1} caracteres!")]
+        public string PrestacaoCidade { get; set; }
+
+        public int CategoriaServicoId { get; set; }
+        public virtual CategoriaServico CategoriaServico { get; set; }
     }
 }

@@ -4,14 +4,14 @@ using WebPrestadores.Repositories.Interfaces;
 
 namespace WebPrestadores.Repositories
 {
-    public class TipoServicoRepository : ITipoServicoRepository
+    public class CategoriaServicoRepository : ICategoriaServicoRepository
     {
         private readonly AppDbContext _context;
-        public TipoServicoRepository(AppDbContext contexto)
+        public CategoriaServicoRepository(AppDbContext contexto)
         {
             _context = contexto;
         }
 
-        public IEnumerable<TipoServico> TiposServicos => _context.TipoServico;
+        public IEnumerable<CategoriaServico> CategoriasServico => _context.CategoriaServico;
     }
 }

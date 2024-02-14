@@ -1,0 +1,18 @@
+﻿@model IEnumerable<WebPrestadores.Models.CategoriaServico>
+
+<div>
+    <h2>Todos as Categorias de Serviços</h2>
+</div>
+
+<div class="container">
+    <div class="row">
+        @foreach (var categoria in Model)
+        {
+            <div class="col-sm-4 col-md-4 col-lg-4">
+                <h2>@categoria.Nome</h2>
+                <p><img src="@categoria.ImagemUrl"></p>                
+                <h6>@categoria.Descricao</h6>
+            </div>
+        }
+    </div>
+</div>

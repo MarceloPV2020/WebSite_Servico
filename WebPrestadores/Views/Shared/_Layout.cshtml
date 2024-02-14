@@ -20,7 +20,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    @await Component.InvokeAsync("TipoServicoMenu")
+                    @await Component.InvokeAsync("CategoriaServicoMenu")
                     <form class="navbar-form navbar-right" asp-controller="PrestadorServico" asp-action="SearchPorNome" method="get">
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="Procurar por Nome" name="searchNomeString" value="@ViewData["searchNomeString"]">

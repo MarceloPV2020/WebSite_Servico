@@ -11,11 +11,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Areas\Admin\Views\AdminTipoServico\Create.cshtml" />
-    <None Include="Areas\Admin\Views\AdminTipoServico\Delete.cshtml" />
-    <None Include="Areas\Admin\Views\AdminTipoServico\Details.cshtml" />
-    <None Include="Areas\Admin\Views\AdminTipoServico\Edit.cshtml" />
-    <None Include="Areas\Admin\Views\AdminTipoServico\Index.cshtml" />
+    <None Include="Areas\Admin\Views\AdminCategoriaServico\Create.cshtml" />
+    <None Include="Areas\Admin\Views\AdminCategoriaServico\Delete.cshtml" />
+    <None Include="Areas\Admin\Views\AdminCategoriaServico\Details.cshtml" />
+    <None Include="Areas\Admin\Views\AdminCategoriaServico\Edit.cshtml" />
+    <None Include="Areas\Admin\Views\AdminCategoriaServico\Index.cshtml" />
     <None Include="Areas\Admin\Views\Admin\Index.cshtml" />
   </ItemGroup>
 

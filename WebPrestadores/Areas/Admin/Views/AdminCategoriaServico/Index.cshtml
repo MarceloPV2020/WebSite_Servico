@@ -1,13 +1,13 @@
-﻿@model IEnumerable<TipoServico>
+﻿@model IEnumerable<CategoriaServico>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Categorias";
 }
 
 <h1>Categorias</h1>
 
 <p>
-    <a asp-action="Create">Criar Novo Tipo de Serviço</a>
+    <a asp-action="Create">Nova Categoria de Serviço</a>
 </p>
 <table class="table">
     <thead>
@@ -31,9 +31,9 @@
                 @Html.DisplayFor(modelItem => item.Descricao)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                <a asp-action="Edit" asp-route-id="@item.Id">Alterar</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Deletar</a>
+                <a asp-action="Delete" asp-route-id="@item.Id">Excluir</a>
             </td>
         </tr>
 }
