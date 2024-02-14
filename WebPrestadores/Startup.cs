@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using WebPrestadores.Context;
 using WebPrestadores.Repositories;
 using WebPrestadores.Repositories.Interfaces;
@@ -17,6 +18,7 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+        services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
         services.AddTransient<ITipoServicoRepository, TipoServicoRepository>();
         services.AddTransient<IPrestadorServicoRepository, PrestadorServicoRepository>();
 
@@ -40,8 +42,9 @@ public class Startup
 
         app.UseStaticFiles();
         app.UseRouting();
-        app.UseAuthorization();
         app.UseStaticFiles();
+        app.UseAuthentication();
+        app.UseAuthorization();
 
         app.UseEndpoints(endpoints =>
         {
