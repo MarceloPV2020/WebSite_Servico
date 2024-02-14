@@ -21,7 +21,7 @@ public class Startup
         services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
         services.AddTransient<ITipoServicoRepository, TipoServicoRepository>();
         services.AddTransient<IPrestadorServicoRepository, PrestadorServicoRepository>();
-
+        services.AddSession();
         services.AddControllersWithViews();
     }
 
@@ -43,6 +43,7 @@ public class Startup
         app.UseStaticFiles();
         app.UseRouting();
         app.UseStaticFiles();
+        app.UseSession();
         app.UseAuthentication();
         app.UseAuthorization();
 
