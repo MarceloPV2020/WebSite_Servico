@@ -1,4 +1,4 @@
-﻿namespace LanchesMac.Services
+﻿namespace WebPrestadores.Services
 {
     public interface ISeedUserRoleInitial
     {

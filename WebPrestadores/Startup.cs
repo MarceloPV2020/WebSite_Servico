@@ -1,9 +1,9 @@
-﻿using LanchesMac.Services;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebPrestadores.Context;
 using WebPrestadores.Repositories;
 using WebPrestadores.Repositories.Interfaces;
+using WebPrestadores.Services;
 
 namespace WebPrestadores;
 public class Startup

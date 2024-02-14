@@ -13,7 +13,7 @@
             <div class="container">
                 <a class="navbar-brand" asp-area="Admin" asp-controller="Admin" asp-action="Index">Admin</a>
                 <div class="navbar-collapse collapse d-sm-inline-flex">
-                    <a class="nav-link text-light" asp-area="Admin" asp-controller="TipoServico" asp-action="Index">Tipo dos Serviços</a>
+                    <a class="nav-link text-light" asp-area="Admin" asp-controller="AdminTipoServico" asp-action="Index">Tipo dos Serviços</a>
                 </div>
             </div>
         </nav>
@@ -23,11 +23,6 @@
             @RenderBody()
         </main>
     </div>
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            <p><a target="_blank" href="http://www.macoratti.net">&copy; 2021 - Macoratti.net</a></p>
-        </div>
-    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
