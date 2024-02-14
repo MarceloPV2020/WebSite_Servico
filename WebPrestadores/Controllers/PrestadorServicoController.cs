@@ -41,23 +41,23 @@ namespace WebPrestadores.Controllers
             return View(prestadoresListViewModel);
         }
 
-        public ViewResult Search(string searchString)
+        public ViewResult SearchPorNome(string searchNomeString)
         {
             IEnumerable<PrestadorServico> prestadores;
-            string tipoServicoAtual = string.Empty;
+            string mensagem = string.Empty;
 
-            if (string.IsNullOrEmpty(searchString))
+            if (string.IsNullOrEmpty(searchNomeString))
             {
                 prestadores = _prestadorServicoRepository.Prestadores.OrderBy(p => p.Id);
-                tipoServicoAtual = "Todos os Prestadores";
+                mensagem = "Todos os Prestadores";
             }
             else
             {
-                prestadores = _prestadorServicoRepository.Prestadores.Where(p => p.Nome.ToLower().Contains(searchString.ToLower()));
+                prestadores = _prestadorServicoRepository.Prestadores.Where(p => p.Nome.ToLower().Contains(searchNomeString.ToLower()));
                 if (prestadores.Any())
-                    tipoServicoAtual = "Prestadores";
+                    mensagem = "Prestadores";
                 else
-                    tipoServicoAtual = "Nenhum prestador foi encontrado";
+                    mensagem = "Nenhum prestador foi encontrado";
             }
 
             return View
@@ -65,7 +65,35 @@ namespace WebPrestadores.Controllers
                 new PrestadorServicoListViewModel
                 {
                     PrestadoresServico = prestadores,
-                    TipoServicoAtual = tipoServicoAtual
+                    TipoServicoAtual = mensagem
+                });
+        }
+
+        public ViewResult SearchPorCategoria(string searchCategoriaString)
+        {
+            IEnumerable<PrestadorServico> prestadores;
+            string mensagem = string.Empty;
+
+            if (string.IsNullOrEmpty(searchCategoriaString))
+            {
+                prestadores = _prestadorServicoRepository.Prestadores.OrderBy(p => p.Id);
+                mensagem = "Todos os Prestadores";
+            }
+            else
+            {
+                prestadores = _prestadorServicoRepository.Prestadores.Where(p => p.TipoServico.Nome.ToLower().Contains(searchCategoriaString.ToLower()));
+                if (prestadores.Any())
+                    mensagem = "Prestadores";
+                else
+                    mensagem = "Nenhum prestador foi encontrado";
+            }
+
+            return View
+                ("~/Views/PrestadorServico/List.cshtml",
+                new PrestadorServicoListViewModel
+                {
+                    PrestadoresServico = prestadores,
+                    TipoServicoAtual = mensagem
                 });
         }
     }

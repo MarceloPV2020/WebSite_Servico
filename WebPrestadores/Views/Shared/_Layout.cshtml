@@ -23,9 +23,14 @@
                     @await Component.InvokeAsync("TipoServicoMenu")
                     <a class="nav-link text-light" asp-area="" asp-controller="TipoServico" asp-action="List">Tipos de Serviços</a>
                     <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    <form class="navbar-form navbar-right" asp-controller="PrestadorServico" asp-action="Search" method="get">
+                    <form class="navbar-form navbar-right" asp-controller="PrestadorServico" asp-action="SearchPorNome" method="get">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Procurar por Nome" name="searchString" value="@ViewData["searchString"]">
+                            <input type="text" class="form-control" placeholder="Procurar por Nome" name="searchNomeString" value="@ViewData["searchNomeString"]">
+                        </div>
+                    </form>
+                    <form class="navbar-form navbar-right" asp-controller="PrestadorServico" asp-action="SearchPorCategoria" method="get">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Procurar por Categoria" name="searchCategoriaString" value="@ViewData["searchCategoriaString"]">
                         </div>
                     </form>
                 </div>
