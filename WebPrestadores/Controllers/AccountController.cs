@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebPrestadores.ViewModels;
 
@@ -17,7 +16,6 @@ namespace WebPrestadores.Controllers
             _signInManager = signInManager;
         }
 
-        [AllowAnonymous]
         public IActionResult Login(string returnUrl)
         {
             return View(new LoginViewModel()
@@ -26,7 +24,6 @@ namespace WebPrestadores.Controllers
             });
         }
 
-        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel loginVM)
         {
@@ -53,13 +50,11 @@ namespace WebPrestadores.Controllers
             return View(loginVM);
         }//
 
-        [AllowAnonymous]
         public IActionResult Register()
         {
             return View();
         }
 
-        [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(LoginViewModel registroVM)
@@ -82,7 +77,6 @@ namespace WebPrestadores.Controllers
             return View(registroVM);
         }
 
-        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
