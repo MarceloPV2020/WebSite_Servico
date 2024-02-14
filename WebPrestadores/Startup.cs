@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using LanchesMac.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebPrestadores.Context;
 using WebPrestadores.Repositories;
@@ -21,12 +22,21 @@ public class Startup
         services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
         services.AddTransient<ITipoServicoRepository, TipoServicoRepository>();
         services.AddTransient<IPrestadorServicoRepository, PrestadorServicoRepository>();
+        services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy("Admin",
+                politica =>
+                {
+                    politica.RequireRole("Admin");
+                });
+        });
         services.AddSession();
         services.AddControllersWithViews();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ISeedUserRoleInitial seedUserRoleInitial)
     {
         if (env.IsDevelopment())
         {
@@ -44,11 +54,17 @@ public class Startup
         app.UseRouting();
         app.UseStaticFiles();
         app.UseSession();
+        seedUserRoleInitial.SeedRoles();
+        seedUserRoleInitial.SeedUsers();
         app.UseAuthentication();
         app.UseAuthorization();
 
         app.UseEndpoints(endpoints =>
         {
+            endpoints.MapControllerRoute(
+             name: "areas",
+             pattern: "{area:exists}/{controller=Admin}/{action=Index}/{id?}");
+
             endpoints.MapControllerRoute(
                name: "tipoServicoFiltro",
                pattern: "PrestadorServico/{action}/{tipoServico?}",
