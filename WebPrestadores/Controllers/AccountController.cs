@@ -61,6 +61,12 @@ namespace WebPrestadores.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (await _userManager.FindByNameAsync(registroVM.UserName) != null)
+                {
+                    this.ModelState.AddModelError("Registro", "Usuário já registrado!");
+                    return View(registroVM);
+                }
+
                 var user = new IdentityUser { UserName = registroVM.UserName };
                 var result = await _userManager.CreateAsync(user, registroVM.Password);
 
