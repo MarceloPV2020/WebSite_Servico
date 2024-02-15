@@ -78,7 +78,9 @@ namespace WebPrestadores.Migrations
                     EnderecoBairro = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     EnderecoCep = table.Column<string>(type: "nvarchar(9)", maxLength: 9, nullable: false),
                     EnderecoCidade = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    EnderecoUf = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false)
+                    EnderecoUf = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false),
+                    Telefone = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -201,7 +203,8 @@ namespace WebPrestadores.Migrations
                     Descricao = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     ImagemUrl = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     PrestacaoCidade = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    CategoriaServicoId = table.Column<int>(type: "int", nullable: false)
+                    CategoriaServicoId = table.Column<int>(type: "int", nullable: false),
+                    UsuarioId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -210,6 +213,12 @@ namespace WebPrestadores.Migrations
                         name: "FK_PrestadorServico_CategoriaServico_CategoriaServicoId",
                         column: x => x.CategoriaServicoId,
                         principalTable: "CategoriaServico",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PrestadorServico_Usuario_UsuarioId",
+                        column: x => x.UsuarioId,
+                        principalTable: "Usuario",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -257,6 +266,12 @@ namespace WebPrestadores.Migrations
                 name: "IX_PrestadorServico_CategoriaServicoId",
                 table: "PrestadorServico",
                 column: "CategoriaServicoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PrestadorServico_UsuarioId",
+                table: "PrestadorServico",
+                column: "UsuarioId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -280,9 +295,6 @@ namespace WebPrestadores.Migrations
                 name: "PrestadorServico");
 
             migrationBuilder.DropTable(
-                name: "Usuario");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -290,6 +302,9 @@ namespace WebPrestadores.Migrations
 
             migrationBuilder.DropTable(
                 name: "CategoriaServico");
+
+            migrationBuilder.DropTable(
+                name: "Usuario");
         }
     }
 }

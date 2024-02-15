@@ -276,9 +276,15 @@ namespace WebPrestadores.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoriaServicoId");
+
+                    b.HasIndex("UsuarioId")
+                        .IsUnique();
 
                     b.ToTable("PrestadorServico");
                 });
@@ -296,6 +302,10 @@ namespace WebPrestadores.Migrations
 
                     b.Property<bool>("Contabilidade")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("EnderecoBairro")
                         .IsRequired()
@@ -334,6 +344,10 @@ namespace WebPrestadores.Migrations
 
                     b.Property<bool>("Prestador")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Telefone")
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.HasKey("Id");
 
@@ -399,12 +413,25 @@ namespace WebPrestadores.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("WebPrestadores.Models.Usuario", "Usuario")
+                        .WithOne("PrestadorServico")
+                        .HasForeignKey("WebPrestadores.Models.PrestadorServico", "UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("CategoriaServico");
+
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("WebPrestadores.Models.CategoriaServico", b =>
                 {
                     b.Navigation("PrestadoresServico");
+                });
+
+            modelBuilder.Entity("WebPrestadores.Models.Usuario", b =>
+                {
+                    b.Navigation("PrestadorServico");
                 });
 #pragma warning restore 612, 618
         }

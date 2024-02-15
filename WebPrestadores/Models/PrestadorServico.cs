@@ -10,7 +10,7 @@ namespace WebPrestadores.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = "O nome do Prestador deve ser informado!")]
-        [Display(Name = "Nome")]
+        [Display(Name = "Nome da Loja/Empresa")]
         [MinLength(5, ErrorMessage = "Nome deve possuir no mínimo {1} caracteres!")]
         [MaxLength(100, ErrorMessage = "Nome deve possuir no máximo {1} caracteres!")]
         public string Nome { get; set; }
@@ -28,7 +28,11 @@ namespace WebPrestadores.Models
         [MaxLength(100, ErrorMessage = "Cidade deve possuir no máximo {1} caracteres!")]
         public string PrestacaoCidade { get; set; }
 
+        [Required(ErrorMessage = "A categoria de serviço deve ser informado!")]
         public int CategoriaServicoId { get; set; }
         public virtual CategoriaServico CategoriaServico { get; set; }
+
+        public int UsuarioId { get; set; }
+        public virtual Usuario Usuario { get; set; }
     }
 }

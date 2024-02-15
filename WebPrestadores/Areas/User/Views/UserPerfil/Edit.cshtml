@@ -63,16 +63,22 @@
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Contabilidade" /> @Html.DisplayNameFor(model => model.Contabilidade)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Prestador" /> @Html.DisplayNameFor(model => model.Prestador)
-                </label>
-            </div>
+            <div class="row">
+                <div class="form-group col-sm-6">
+            <label class="control-label">Marcar como Contabilidade?</label>
+            <br />
+            <label class="form-check-label" style="padding-left: 20px">
+                        <input class="form-check-input" asp-for="Contabilidade" /> @Html.DisplayNameFor(model => model.Contabilidade)
+            </label>
+        </div>
+        <div class="form-group col-sm-6">
+            <label class="control-label">Marcar como um Prestador?</label>
+            <br />
+            <label class="form-check-label" style="padding-left: 20px">
+                        <input class="form-check-input" asp-for="Prestador" /> @Html.DisplayNameFor(model => model.Prestador)
+            </label>
+        </div>
+    </div>
             <div class="form-group">
                 <input type="submit" value="Salvar" class="btn btn-primary" />
             </div>

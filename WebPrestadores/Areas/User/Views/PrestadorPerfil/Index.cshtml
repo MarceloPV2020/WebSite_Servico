@@ -1,0 +1,40 @@
+﻿@model PrestadorServico
+
+@{
+    ViewData["Title"] = "Dados do Prestador do Serviço";
+}
+
+<h1>Dados do Prestador do Serviço</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Nome)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Nome)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Descricao)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Descricao)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PrestacaoCidade)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PrestacaoCidade)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CategoriaServico.Nome)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CategoriaServico.Nome)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Alterar</a>
+</div>
