@@ -1,0 +1,76 @@
+﻿@model Usuario
+
+@{
+    ViewData["Title"] = "Alterar";
+}
+
+<h1>Alterar</h1>
+
+<h4>Usuário</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="AspNetUsersId" class="control-label"></label>
+                <input asp-for="AspNetUsersId" class="form-control" readonly />
+                <span asp-validation-for="AspNetUsersId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Nome" class="control-label"></label>
+                <input asp-for="Nome" class="form-control" />
+                <span asp-validation-for="Nome" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EnderecoDescricao" class="control-label"></label>
+                <input asp-for="EnderecoDescricao" class="form-control" />
+                <span asp-validation-for="EnderecoDescricao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EnderecoNumero" class="control-label"></label>
+                <input asp-for="EnderecoNumero" class="form-control" />
+                <span asp-validation-for="EnderecoNumero" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EnderecoBairro" class="control-label"></label>
+                <input asp-for="EnderecoBairro" class="form-control" />
+                <span asp-validation-for="EnderecoBairro" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EnderecoCep" class="control-label"></label>
+                <input asp-for="EnderecoCep" class="form-control" />
+                <span asp-validation-for="EnderecoCep" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EnderecoCidade" class="control-label"></label>
+                <input asp-for="EnderecoCidade" class="form-control" />
+                <span asp-validation-for="EnderecoCidade" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EnderecoUf" class="control-label"></label>
+                <input asp-for="EnderecoUf" class="form-control" />
+                <span asp-validation-for="EnderecoUf" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Contabilidade" /> @Html.DisplayNameFor(model => model.Contabilidade)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Prestador" /> @Html.DisplayNameFor(model => model.Prestador)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Salvar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Voltar aos Dados do Usuário</a>
+</div>
+

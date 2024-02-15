@@ -21,6 +21,7 @@ namespace WebPrestadores.Models
         [Display(Name = "Contabilidade")]
         public bool Contabilidade { get; set; }
 
+        [Display(Name = "ID")]
         public string AspNetUsersId { get; set; }
 
         [Required(ErrorMessage = "O Endereço - Descrição deve ser informado!")]
