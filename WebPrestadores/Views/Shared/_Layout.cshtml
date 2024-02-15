@@ -36,6 +36,11 @@
                     {
                         <a class="nav-link text-light" asp-area="Admin" asp-controller="Admin" asp-action="Index">Admin</a>
                     }
+
+                    @if (User.IsInRole("User"))
+                    {
+                        <a class="nav-link text-light" asp-area="User" asp-controller="User" asp-action="Index">Usuário</a>
+                    }
                 </div>
             </div>
         </nav>
