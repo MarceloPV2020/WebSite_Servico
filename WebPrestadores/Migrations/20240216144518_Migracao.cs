@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -220,6 +219,35 @@ namespace WebPrestadores.Migrations
                         column: x => x.UsuarioId,
                         principalTable: "Usuario",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PrestadorServicoAvaliacao",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Observacao = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Nota = table.Column<int>(type: "int", nullable: false),
+                    DataAvaliado = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PrestadorServicoId = table.Column<int>(type: "int", nullable: false),
+                    UsuarioAvaliadorId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PrestadorServicoAvaliacao", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PrestadorServicoAvaliacao_PrestadorServico_PrestadorServicoId",
+                        column: x => x.PrestadorServicoId,
+                        principalTable: "PrestadorServico",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PrestadorServicoAvaliacao_Usuario_UsuarioAvaliadorId",
+                        column: x => x.UsuarioAvaliadorId,
+                        principalTable: "Usuario",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -272,6 +300,16 @@ namespace WebPrestadores.Migrations
                 table: "PrestadorServico",
                 column: "UsuarioId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PrestadorServicoAvaliacao_PrestadorServicoId",
+                table: "PrestadorServicoAvaliacao",
+                column: "PrestadorServicoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PrestadorServicoAvaliacao_UsuarioAvaliadorId",
+                table: "PrestadorServicoAvaliacao",
+                column: "UsuarioAvaliadorId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -292,13 +330,16 @@ namespace WebPrestadores.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "PrestadorServico");
+                name: "PrestadorServicoAvaliacao");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "PrestadorServico");
 
             migrationBuilder.DropTable(
                 name: "CategoriaServico");

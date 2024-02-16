@@ -1,0 +1,34 @@
+﻿@model PrestadorServicoAvaliacaoViewModel
+
+@{
+    ViewData["Title"] = "Avaliar";
+}
+
+<h4>Prestador de Serviço</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Avaliar">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdPrestadorServico" />
+            <div class="form-group">
+                <label asp-for="Observacao" class="control-label"></label>
+                <input asp-for="Observacao" class="form-control" />
+                <span asp-validation-for="Observacao" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DataAvaliado" class="control-label"></label>
+                <input asp-for="DataAvaliado" class="form-control" />
+                <span asp-validation-for="DataAvaliado" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Nota" class="control-label"></label>
+                <input asp-for="Nota" class="form-control" />
+                <span asp-validation-for="Nota" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Salvar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>

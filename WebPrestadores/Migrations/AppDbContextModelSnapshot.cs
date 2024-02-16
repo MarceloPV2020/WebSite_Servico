@@ -289,6 +289,40 @@ namespace WebPrestadores.Migrations
                     b.ToTable("PrestadorServico");
                 });
 
+            modelBuilder.Entity("WebPrestadores.Models.PrestadorServicoAvaliacao", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("DataAvaliado")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Nota")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Observacao")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("PrestadorServicoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsuarioAvaliadorId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PrestadorServicoId");
+
+                    b.HasIndex("UsuarioAvaliadorId");
+
+                    b.ToTable("PrestadorServicoAvaliacao");
+                });
+
             modelBuilder.Entity("WebPrestadores.Models.Usuario", b =>
                 {
                     b.Property<int>("Id")
@@ -424,13 +458,39 @@ namespace WebPrestadores.Migrations
                     b.Navigation("Usuario");
                 });
 
+            modelBuilder.Entity("WebPrestadores.Models.PrestadorServicoAvaliacao", b =>
+                {
+                    b.HasOne("WebPrestadores.Models.PrestadorServico", "PrestadorServico")
+                        .WithMany("ListaPrestadorServicoAvaliacao")
+                        .HasForeignKey("PrestadorServicoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebPrestadores.Models.Usuario", "UsuarioAvaliador")
+                        .WithMany("ListaPrestadorServicoAvaliacao")
+                        .HasForeignKey("UsuarioAvaliadorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PrestadorServico");
+
+                    b.Navigation("UsuarioAvaliador");
+                });
+
             modelBuilder.Entity("WebPrestadores.Models.CategoriaServico", b =>
                 {
                     b.Navigation("PrestadoresServico");
                 });
 
+            modelBuilder.Entity("WebPrestadores.Models.PrestadorServico", b =>
+                {
+                    b.Navigation("ListaPrestadorServicoAvaliacao");
+                });
+
             modelBuilder.Entity("WebPrestadores.Models.Usuario", b =>
                 {
+                    b.Navigation("ListaPrestadorServicoAvaliacao");
+
                     b.Navigation("PrestadorServico");
                 });
 #pragma warning restore 612, 618
