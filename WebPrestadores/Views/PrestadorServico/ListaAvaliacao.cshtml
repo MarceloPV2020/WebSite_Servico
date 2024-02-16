@@ -4,41 +4,74 @@
     ViewData["Title"] = "Avaliação do Prestador do Serviço";
 }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Autor
-            </th>
-            <th>
-                Data
-            </th>
-            <th>
-                Nota
-            </th>
-            <th>
-                Observação
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.ListaPrestadorServicoAvaliacao??new List<PrestadorServicoAvaliacao>())
-        {
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/js/master.js"></script>
+
+<div class="row">
+    <table class="table  table-bordered table-hover" id="moviesTable">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UsuarioAvaliador.Nome)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DataAvaliado)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nota)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Observacao)
-                </td>
+                <th>
+                   Autor
+                </th>
+                <th>
+                    Data
+                </th>
+                <th>
+                    Avaliação
+                </th>
+                <th>
+                    Observação
+                </th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.ListaPrestadorServicoAvaliacao)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DataAvaliado)
+                    </td>
+                    <td>
+                        <img src="~/images/EmptyStar.png" alt="Star Rating" align="middle" id="1" class="rating" mid="@item.Id" />
+                        <img src="~/images/EmptyStar.png" alt="Star Rating" align="middle" id="2" class="rating" mid="@item.Id" />
+                        <img src="~/images/EmptyStar.png" alt="Star Rating" align="middle" id="3" class="rating" mid="@item.Id" />
+                        <img src="~/images/EmptyStar.png" alt="Star Rating" align="middle" id="4" class="rating" mid="@item.Id" />
+                        <img src="~/images/EmptyStar.png" alt="Star Rating" align="middle" id="5" class="rating" mid="@item.Id" />
+                        @{if (item.Nota > 0)
+                            {                                
+                                <span class="avr"> @item.Nota</span>
+                            }
+                        }<br />
+                        <div class="result"></div>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Observacao)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#moviesTable > tbody  > tr').each(function () {
+
+            var av = $(this).find("span.avr").text();
+
+            if (av != "" || av != null) {
+                // alert(av);
+                // fillRating(parseInt(av));
+                var img = $(this).find("img[id='" + parseInt(av) + "']");
+                img.attr("src", "/images/FilledStar.png").prevAll("img.rating").attr("src", "/images/FilledStar.png");
+            }
+
+        });
+    });
+</script>
