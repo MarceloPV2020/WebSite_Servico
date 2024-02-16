@@ -82,6 +82,61 @@ namespace WebPrestadores.Areas.User.Controllers
             return View(prestadorServico);
         }
 
+        public async Task<IActionResult> ListaAvaliacao(int id)
+        {
+            var prestadorTemp = await _context.PrestadorServico.FindAsync(id);
+
+            return View(prestadorTemp);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Avaliar(int id, [Bind("Id,Nome,Descricao,ImagemUrl,PrestacaoCidade,CategoriaServicoId")] PrestadorServico prestadorServico)
+        {
+            if (id != prestadorServico.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    if (id == 0)
+                    {
+                        prestadorServico.Usuario = _context.Usuario.FirstOrDefault(x => x.AspNetUsersId == _userManager.GetUserId(User));
+                        _context.Add(prestadorServico);
+                    }
+                    else
+                    {
+                        var prestadorTemp = await _context.PrestadorServico.FindAsync(id);
+                        prestadorTemp.Nome = prestadorServico.Nome;
+                        prestadorTemp.Descricao = prestadorServico.Descricao;
+                        prestadorTemp.ImagemUrl = prestadorServico.ImagemUrl;
+                        prestadorTemp.PrestacaoCidade = prestadorServico.PrestacaoCidade;
+                        prestadorTemp.CategoriaServicoId = prestadorServico.CategoriaServicoId;
+                        _context.Update(prestadorTemp);
+                    }
+
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!PrestadorExists(prestadorServico.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["CategoriaId"] = new SelectList(_context.CategoriaServico, "Id", "Nome", prestadorServico.CategoriaServicoId);
+            return View(prestadorServico);
+        }
+
         private bool PrestadorExists(int id)
         {
             return _context.Usuario.Any(e => e.Id == id);

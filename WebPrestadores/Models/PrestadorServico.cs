@@ -34,5 +34,7 @@ namespace WebPrestadores.Models
 
         public int UsuarioId { get; set; }
         public virtual Usuario Usuario { get; set; }
+
+        public List<PrestadorServicoAvaliacao> ListaPrestadorServicoAvaliacao { get; set; }
     }
 }

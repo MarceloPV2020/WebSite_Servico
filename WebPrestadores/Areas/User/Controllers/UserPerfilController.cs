@@ -68,6 +68,12 @@ namespace WebPrestadores.Areas.User.Controllers
                 return NotFound();
             }
 
+            // Usuário já é um prestador
+            if (!usuario.Prestador && (_context.PrestadorServico.FirstOrDefault(x => x.Usuario.AspNetUsersId == _userManager.GetUserId(User)) != null))
+            {
+                ModelState.AddModelError("Registro", "Usuário é um prestador de serviço. Opção não pode ser desmarcada. Contate o administrador.");
+            }
+
             if (ModelState.IsValid)
             {
                 try

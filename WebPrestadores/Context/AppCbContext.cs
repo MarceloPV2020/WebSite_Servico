@@ -14,5 +14,6 @@ namespace WebPrestadores.Context
         public DbSet<Usuario> Usuario { get; set; }
         public DbSet<CategoriaServico> CategoriaServico { get; set; }
         public DbSet<PrestadorServico> PrestadorServico { get; set; }
+        public DbSet<PrestadorServicoAvaliacao> PrestadorServicoAvaliacao { get; set; }
     }
 }

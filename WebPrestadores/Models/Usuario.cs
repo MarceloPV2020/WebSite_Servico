@@ -65,5 +65,7 @@ namespace WebPrestadores.Models
         public string Email { get; set; }
 
         public PrestadorServico PrestadorServico { get; set; }
+
+        public List<PrestadorServicoAvaliacao> ListaPrestadorServicoAvaliacao { get; set; }
     }
 }

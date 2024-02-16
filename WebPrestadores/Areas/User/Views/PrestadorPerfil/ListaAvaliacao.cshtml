@@ -1,0 +1,50 @@
+﻿@model PrestadorServico
+
+@{
+    ViewData["Title"] = "Avaliação do Prestador do Serviço";
+}
+
+<p>
+    <a asp-action="Avaliar">Nova Avaliação</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                "Observação"
+            </th>
+            <th>
+                "Nota"
+            </th>
+            <th>
+                "Data"
+            </th>
+            <th>
+                "Autor"
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ListaPrestadorServicoAvaliacao??new List<PrestadorServicoAvaliacao>())
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Observacao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nota)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataAvaliado)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UsuarioAvaliador.Nome)
+                </td>
+                <td>
+                    <a asp-action="Avaliar" asp-route-id="@Model.Id">Avaliar</a> |
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
