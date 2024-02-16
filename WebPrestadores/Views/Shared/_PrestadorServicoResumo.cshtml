@@ -1,8 +1,43 @@
 ﻿@model PrestadorServico
 
-<div class="col-sm-4 col-md-4 col-lg-4">
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/js/master.js"></script>
+
+<div class="col-sm-4 col-md-4 col-lg-4" id="divImages">
     <p><img src="@Model.ImagemUrl" class="img-fluid"></p>
-    <h5>Avaliação : 5 estrelas</h5>
     <h3>@Model.Nome</h3>
     <p>@Model.Descricao</p>
+    <p>
+        <img src="~/images/EmptyStar.png" alt="Star Rating" align="middle" id="1" class="rating" mid="@Model.Id" />
+        <img src="~/images/EmptyStar.png" alt="Star Rating" align="middle" id="2" class="rating" mid="@Model.Id" />
+        <img src="~/images/EmptyStar.png" alt="Star Rating" align="middle" id="3" class="rating" mid="@Model.Id" />
+        <img src="~/images/EmptyStar.png" alt="Star Rating" align="middle" id="4" class="rating" mid="@Model.Id" />
+        <img src="~/images/EmptyStar.png" alt="Star Rating" align="middle" id="5" class="rating" mid="@Model.Id" />
+        @{
+            if (Model.AvaliacaoQuantidade > 0)
+            {
+                <span class="avr"> @Model.Avaliacao</span>
+            }
+        }
+        &nbsp;(@Model.AvaliacaoQuantidade Avaliações)
+        <br />
+        <div class="result"></div>
+    </p>
 </div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#divImages').each(function () {
+
+            var av = $(this).find("span.avr").text();
+
+            if (av != "" || av != null) {
+                // alert(av);
+                // fillRating(parseInt(av));
+                var img = $(this).find("img[id='" + parseInt(av) + "']");
+                img.attr("src", "/images/FilledStar.png").prevAll("img.rating").attr("src", "/images/FilledStar.png");
+            }
+
+        });
+    });
+</script>

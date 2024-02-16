@@ -35,6 +35,24 @@ namespace WebPrestadores.Models
         public int UsuarioId { get; set; }
         public virtual Usuario Usuario { get; set; }
 
-        public List<PrestadorServicoAvaliacao> ListaPrestadorServicoAvaliacao { get; set; }
+        public List<PrestadorServicoAvaliacao> ListaPrestadorServicoAvaliacao { get; set; } = new List<PrestadorServicoAvaliacao>();
+
+        [NotMapped]
+        public decimal AvaliacaoQuantidade
+        {
+            get
+            {
+                return this.ListaPrestadorServicoAvaliacao.Count();
+            }
+        }
+
+        [NotMapped]
+        public decimal Avaliacao
+        {
+            get
+            {
+                return Math.Round(this.ListaPrestadorServicoAvaliacao.Sum(x => x.Nota) / this.AvaliacaoQuantidade, 1);
+            }
+        }
     }
 }

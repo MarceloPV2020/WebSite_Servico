@@ -13,7 +13,22 @@ namespace WebPrestadores.Repositories
             _context = contexto;
         }
 
-        public IEnumerable<PrestadorServico> Prestadores => _context.PrestadorServico.Include(c => c.CategoriaServico);
+        public IEnumerable<PrestadorServico> Prestadores
+        {
+            get
+            {
+                var prestadorTemp = _context.PrestadorServico.Include(c => c.CategoriaServico);
+                foreach (var item in prestadorTemp)
+                {
+                    item.ListaPrestadorServicoAvaliacao = _context.PrestadorServicoAvaliacao
+                        .Include(x => x.UsuarioAvaliador)
+                        .Where(x => x.PrestadorServicoId == item.Id)
+                        .ToList();
+                }
+
+                return prestadorTemp;
+            }
+        }
 
         public PrestadorServico GetPrestadorById(int prestadorId)
         {
