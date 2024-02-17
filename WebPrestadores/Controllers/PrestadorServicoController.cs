@@ -24,15 +24,28 @@ namespace WebPrestadores.Controllers
         {
             IEnumerable<PrestadorServico> prestadoresServico;
             string categoriaAtual = string.Empty;
+            int idCidadeUsuario = _context.Usuario.FirstOrDefault(x => x.AspNetUsersId == _userManager.GetUserId(User))?.CidadeId ?? 0;
 
             if (string.IsNullOrEmpty(categoriaServico))
             {
-                prestadoresServico = _prestadorServicoRepository.Prestadores.OrderBy(l => l.Id);
+                var query = _prestadorServicoRepository.Prestadores;
+                if (idCidadeUsuario > 0)
+                {
+                    query = query.Where(x => x.ListaPrestadorServicoCidade.Any(y => y.CidadeId == idCidadeUsuario));
+                }
+
+                prestadoresServico = query.OrderBy(l => l.Id);
                 categoriaAtual = "Todos os prestadores";
             }
             else
             {
-                prestadoresServico = _prestadorServicoRepository.Prestadores
+                var query = _prestadorServicoRepository.Prestadores;
+                if (idCidadeUsuario > 0)
+                {
+                    query = query.Where(x => x.ListaPrestadorServicoCidade.Any(y => y.CidadeId == idCidadeUsuario));
+                }
+
+                prestadoresServico = query
                          .Where(l => l.CategoriaServico.Nome.Equals(categoriaServico))
                          .OrderBy(c => c.Nome);
 
@@ -54,15 +67,28 @@ namespace WebPrestadores.Controllers
         {
             IEnumerable<PrestadorServico> prestadores;
             string mensagem = string.Empty;
+            int idCidadeUsuario = _context.Usuario.FirstOrDefault(x => x.AspNetUsersId == _userManager.GetUserId(User))?.CidadeId ?? 0;
 
             if (string.IsNullOrEmpty(searchNomeString))
             {
-                prestadores = _prestadorServicoRepository.Prestadores.OrderBy(p => p.Id);
+                var query = _prestadorServicoRepository.Prestadores;
+                if (idCidadeUsuario > 0)
+                {
+                    query = query.Where(x => x.ListaPrestadorServicoCidade.Any(y => y.CidadeId == idCidadeUsuario));
+                }
+
+                prestadores = query.OrderBy(l => l.Id);
                 mensagem = "Todos os Prestadores";
             }
             else
             {
-                prestadores = _prestadorServicoRepository.Prestadores.Where(p => p.Nome.ToLower().Contains(searchNomeString.ToLower()));
+                var query = _prestadorServicoRepository.Prestadores;
+                if (idCidadeUsuario > 0)
+                {
+                    query = query.Where(x => x.ListaPrestadorServicoCidade.Any(y => y.CidadeId == idCidadeUsuario));
+                }
+
+                prestadores = query.Where(p => p.Nome.ToLower().Contains(searchNomeString.ToLower()));
                 if (prestadores.Any())
                     mensagem = "Prestadores";
                 else
@@ -82,15 +108,28 @@ namespace WebPrestadores.Controllers
         {
             IEnumerable<PrestadorServico> prestadores;
             string mensagem = string.Empty;
+            int idCidadeUsuario = _context.Usuario.FirstOrDefault(x => x.AspNetUsersId == _userManager.GetUserId(User))?.CidadeId ?? 0;
 
             if (string.IsNullOrEmpty(searchCategoriaString))
             {
-                prestadores = _prestadorServicoRepository.Prestadores.OrderBy(p => p.Id);
+                var query = _prestadorServicoRepository.Prestadores;
+                if (idCidadeUsuario > 0)
+                {
+                    query = query.Where(x => x.ListaPrestadorServicoCidade.Any(y => y.CidadeId == idCidadeUsuario));
+                }
+
+                prestadores = query.OrderBy(l => l.Id);
                 mensagem = "Todos os Prestadores";
             }
             else
             {
-                prestadores = _prestadorServicoRepository.Prestadores.Where(p => p.CategoriaServico.Nome.ToLower().Contains(searchCategoriaString.ToLower()));
+                var query = _prestadorServicoRepository.Prestadores;
+                if (idCidadeUsuario > 0)
+                {
+                    query = query.Where(x => x.ListaPrestadorServicoCidade.Any(y => y.CidadeId == idCidadeUsuario));
+                }
+
+                prestadores = query.Where(p => p.CategoriaServico.Nome.ToLower().Contains(searchCategoriaString.ToLower()));
                 if (prestadores.Any())
                     mensagem = "Prestadores";
                 else
@@ -106,15 +145,15 @@ namespace WebPrestadores.Controllers
                 });
         }
 
-        public IActionResult ListaAvaliacao(int id)
+        public async Task<IActionResult> ListaAvaliacao(int id)
         {
-            var prestadorTemp = _context.PrestadorServico
+            var prestadorTemp = await _context.PrestadorServico
                 .Include(x => x.CategoriaServico)
-                .FirstOrDefault(x => x.Id == id);
-            prestadorTemp.ListaPrestadorServicoAvaliacao = _context.PrestadorServicoAvaliacao
+                .FirstOrDefaultAsync(x => x.Id == id);
+            prestadorTemp.ListaPrestadorServicoAvaliacao = await _context.PrestadorServicoAvaliacao
                 .Include(x => x.UsuarioAvaliador)
                 .Where(x => x.PrestadorServicoId == id)
-                .ToList();
+                .ToListAsync();
             return View(prestadorTemp);
         }
 

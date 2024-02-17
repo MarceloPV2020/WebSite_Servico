@@ -24,6 +24,10 @@ namespace WebPrestadores.Repositories
                         .Include(x => x.UsuarioAvaliador)
                         .Where(x => x.PrestadorServicoId == item.Id)
                         .ToList();
+                    item.ListaPrestadorServicoCidade = _context.PrestadorServicoCidade
+                         .Include(x => x.Cidade)
+                         .Where(x => x.PrestadorServicoId == item.Id)
+                         .ToList();
                 }
 
                 return prestadorTemp;

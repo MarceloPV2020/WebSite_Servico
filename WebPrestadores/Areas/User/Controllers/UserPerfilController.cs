@@ -21,9 +21,9 @@ namespace WebPrestadores.Areas.User.Controllers
             _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            Usuario usuario = _context.Usuario.Include(x => x.Cidade).FirstOrDefault(x => x.AspNetUsersId == _userManager.GetUserId(User));
+            Usuario usuario = await _context.Usuario.Include(x => x.Cidade).FirstOrDefaultAsync(x => x.AspNetUsersId == _userManager.GetUserId(User));
             if (usuario == null)
             {
                 usuario =
@@ -43,7 +43,7 @@ namespace WebPrestadores.Areas.User.Controllers
 
         public async Task<IActionResult> Edit(int? id)
         {
-            Usuario usuario = await _context.Usuario.FindAsync(id);
+            Usuario usuario = await _context.Usuario.Include(x => x.Cidade).FirstOrDefaultAsync(x => x.Id == id);
             if (usuario == null)
             {
                 usuario =

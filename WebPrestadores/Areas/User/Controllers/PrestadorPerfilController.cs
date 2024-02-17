@@ -36,7 +36,7 @@ namespace WebPrestadores.Areas.User.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Descricao,ImagemUrl,PrestacaoCidade,CategoriaServicoId")] PrestadorServico prestadorServico)
+        public async Task<IActionResult> Edit(int id, PrestadorServico prestadorServico)
         {
             if (id != prestadorServico.Id)
             {
@@ -81,15 +81,15 @@ namespace WebPrestadores.Areas.User.Controllers
             return View(prestadorServico);
         }
 
-        public IActionResult ListaAvaliacao(int id)
+        public async Task<IActionResult> ListaAvaliacao(int id)
         {
-            var prestadorTemp = _context.PrestadorServico
+            var prestadorTemp = await _context.PrestadorServico
                 .Include(x => x.CategoriaServico)
-                .FirstOrDefault(x => x.Id == id);
-            prestadorTemp.ListaPrestadorServicoAvaliacao = _context.PrestadorServicoAvaliacao
+                .FirstOrDefaultAsync(x => x.Id == id);
+            prestadorTemp.ListaPrestadorServicoAvaliacao = await _context.PrestadorServicoAvaliacao
                 .Include(x => x.UsuarioAvaliador)
                 .Where(x => x.PrestadorServicoId == id)
-                .ToList();
+                .ToListAsync();
             return View(prestadorTemp);
         }
 
@@ -154,6 +154,33 @@ namespace WebPrestadores.Areas.User.Controllers
 
             ViewData["CidadeId"] = new SelectList(_context.Cidade, "Id", "Nome", 0);
             return View(prestadorServicoCidade);
+        }
+
+        public async Task<IActionResult> DeleteCidade(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var cidade = await _context.PrestadorServicoCidade
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (cidade == null)
+            {
+                return NotFound();
+            }
+
+            return View(cidade);
+        }
+
+        [HttpPost, ActionName("DeleteCidade")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteCidadeConfirmed(int id)
+        {
+            var cidade = await _context.PrestadorServicoCidade.FindAsync(id);
+            _context.PrestadorServicoCidade.Remove(cidade);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(IndexCidade), new { idPrestacaoServico = cidade.PrestadorServicoId });
         }
     }
 }

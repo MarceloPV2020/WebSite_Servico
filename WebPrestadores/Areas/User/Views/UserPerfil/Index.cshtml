@@ -61,7 +61,7 @@
             Cidade/UF
         </dt>
         <dd class="col-sm-10">
-            @Model.Cidade.Nome.Trim() / @Model.Cidade.Uf
+            @Model.Cidade?.Nome?.Trim() / @Model.Cidade?.Uf
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Telefone)
