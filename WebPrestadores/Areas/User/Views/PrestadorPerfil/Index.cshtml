@@ -31,5 +31,9 @@
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Alterar</a>
-    <a asp-action="ListaAvaliacao" asp-route-id="@Model?.Id">Visualizar as avaliações</a>
+    @if(Model?.Id>0)
+    {
+        <a asp-action="IndexCidade" asp-route-idPrestacaoServico="@Model?.Id">Cidades de abrangência</a>
+        <a asp-action="ListaAvaliacao" asp-route-id="@Model?.Id">Visualizar as avaliações</a>
+    }        
 </div>

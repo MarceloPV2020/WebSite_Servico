@@ -97,5 +97,63 @@ namespace WebPrestadores.Areas.User.Controllers
         {
             return _context.PrestadorServico.Any(e => e.Id == id);
         }
+
+        public async Task<IActionResult> IndexCidade(int idPrestacaoServico)
+        {
+            var prestador = await _context.PrestadorServico.FindAsync(idPrestacaoServico);
+            prestador.ListaPrestadorServicoCidade = await _context.PrestadorServicoCidade.Include(x => x.Cidade).Where(x => x.PrestadorServicoId == idPrestacaoServico).ToListAsync();
+            return View(prestador);
+        }
+
+        public IActionResult AdicionarCidade(int idPrestadorServico)
+        {
+            ViewData["CidadeId"] = new SelectList(_context.Cidade, "Id", "Nome", 0);
+            return View(
+                new PrestadorServicoCidade()
+                {
+                    PrestadorServicoId = idPrestadorServico
+                });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AdicionarCidade(int PrestadorServicoId, PrestadorServicoCidade prestadorServicoCidade)
+        {
+            if (PrestadorServicoId != prestadorServicoCidade.PrestadorServicoId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var prestador = await _context.PrestadorServico.FindAsync(PrestadorServicoId);
+                    prestador.ListaPrestadorServicoCidade.Add(
+                        new PrestadorServicoCidade()
+                        {
+                            PrestadorServico = prestador,
+                            CidadeId = prestadorServicoCidade.CidadeId
+                        });
+                    _context.Update(prestador);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!PrestadorExists(prestadorServicoCidade.PrestadorServicoId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+
+            ViewData["CidadeId"] = new SelectList(_context.Cidade, "Id", "Nome", 0);
+            return View(prestadorServicoCidade);
+        }
     }
 }
