@@ -2,42 +2,4 @@
 
 <h3>Avaliação feita pelos usuários</h3>
 <br />
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Autor
-            </th>
-            <th>
-                Data
-            </th>
-            <th>
-                Nota
-            </th>
-            <th>
-                Observação
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.ListaPrestadorServicoAvaliacao??new List<PrestadorServicoAvaliacao>())
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UsuarioAvaliador.Nome)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DataAvaliado)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nota)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Observacao)
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<partial name="_AvaliacaoResumo" for="@Model" />

@@ -51,6 +51,11 @@ namespace WebPrestadores.Models
         {
             get
             {
+                if (this.AvaliacaoQuantidade == 0)
+                {
+                    return 0;
+                }
+
                 return Math.Round(this.ListaPrestadorServicoAvaliacao.Sum(x => x.Nota) / this.AvaliacaoQuantidade, 1);
             }
         }
