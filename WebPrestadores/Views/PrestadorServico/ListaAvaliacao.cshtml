@@ -1,8 +1,7 @@
 ﻿@model PrestadorServico
 
-@{
-    ViewData["Title"] = "Avaliação do Prestador do Serviço";
-}
+<h3>Avaliação feita pelos usuários</h3>
+<br />
 
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script src="~/js/master.js"></script>
@@ -31,7 +30,7 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Id)
+                        @Html.DisplayFor(modelItem => item.UsuarioAvaliador.Nome)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.DataAvaliado)

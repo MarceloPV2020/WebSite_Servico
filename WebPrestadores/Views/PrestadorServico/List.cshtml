@@ -3,17 +3,66 @@
 <div>
     <h2>@Model.CategoriaServicoAtual</h2>
 </div>
+<hr />
 
 <div class="container">
-    <div class="row">
+    <div class="row" >
         @foreach (var prestador in Model.PrestadoresServico)
         {
             <partial name="_PrestadorServicoResumo" for="@prestador" />
-            @if ((bool?)ViewData["Prestador"] == true)
+            @if ((bool?)ViewData["Usuario"] == true)
             {
-                <a asp-area="" asp-controller="PrestadorServico" asp-action="Avaliar" asp-route-id="@prestador.Id">Avaliar</a>
-                <a asp-area="" asp-controller="PrestadorServico" asp-action="ListaAvaliacao" asp-route-id="@prestador.Id">Visualizar Avaliações</a>
-            }
+                <div class="rating-star-block" id='div_4'><input type="hidden" class="articleID" value='4' />
+                    Avalie:
+                <a class="star outline" asp-controller="PrestadorServico" asp-action="Avaliar" asp-route-id="@prestador.Id" asp-route-notaDefault="1" rating="1" title="vote 1"> vote 1</a>
+                <a class="star outline" asp-controller="PrestadorServico" asp-action="Avaliar" asp-route-id="@prestador.Id" asp-route-notaDefault="2" rating="2" title="vote 2"> vote 2</a>
+                <a class="star outline" asp-controller="PrestadorServico" asp-action="Avaliar" asp-route-id="@prestador.Id" asp-route-notaDefault="3" rating="3" title="vote 3"> vote 3</a>
+                <a class="star outline" asp-controller="PrestadorServico" asp-action="Avaliar" asp-route-id="@prestador.Id" asp-route-notaDefault="4" rating="4" title="vote 4"> vote 4</a>
+                <a class="star outline" asp-controller="PrestadorServico" asp-action="Avaliar" asp-route-id="@prestador.Id" asp-route-notaDefault="5" rating="5" title="vote 5"> vote 5</a>                    
+            </div>
+            }                
         }
     </div>
 </div>
+
+<style type="text/css">
+    .rating-star-block .star.outline {
+        background: url("/images/EmptyStar.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    }
+
+    .rating-star-block .star.filled {
+        background: url("/images/FilledStar.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    }
+
+    .rating-star-block .star {
+        color: rgba(0,0,0,0);
+        display: inline-block;
+        height: 16px;
+        overflow: hidden;
+        text-indent: -999em;
+        width: 24px;
+    }
+
+    a {
+        color: #005782;
+        text-decoration: none;
+    }
+</style>
+
+<script src="Scripts/jquery-1.7.1.js"></script>
+<script language="javascript" type="text/javascript">
+    $(document).ready(function () {
+        $(".rating-star-block .star").mouseleave(function () {
+            $("#" + $(this).parent().attr('id') + " .star").each(function () {
+                $(this).addClass("outline");
+                $(this).removeClass("filled");
+            });
+        });
+        $(".rating-star-block .star").mouseenter(function () {
+            var hoverVal = $(this).attr('rating');
+            $(this).prevUntil().addClass("filled");
+            $(this).addClass("filled");
+            $("#RAT").html(hoverVal);
+        });
+    });
+    </script>

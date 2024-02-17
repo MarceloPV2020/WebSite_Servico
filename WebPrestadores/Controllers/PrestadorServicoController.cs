@@ -46,7 +46,7 @@ namespace WebPrestadores.Controllers
                     CategoriaServicoAtual = categoriaAtual
                 };
 
-            ViewData["Prestador"] = _context.Usuario.FirstOrDefault(x => x.AspNetUsersId == _userManager.GetUserId(User))?.Prestador;
+            ViewData["Usuario"] = _context.Usuario.FirstOrDefault(x => x.AspNetUsersId == _userManager.GetUserId(User)) != null;
             return View(prestadoresListViewModel);
         }
 
@@ -118,12 +118,13 @@ namespace WebPrestadores.Controllers
             return View(prestadorTemp);
         }
 
-        public IActionResult Avaliar(int id)
+        public IActionResult Avaliar(int id, int? notaDefault)
         {
             return View(
                 new PrestadorServicoAvaliacaoViewModel()
                 {
-                    IdPrestadorServico = id
+                    IdPrestadorServico = id,
+                    Nota = notaDefault ?? 0
                 });
         }
 
