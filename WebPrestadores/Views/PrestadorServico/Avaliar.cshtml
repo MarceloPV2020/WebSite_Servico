@@ -1,10 +1,25 @@
 ﻿@model PrestadorServicoAvaliacaoViewModel
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/js/master.js"></script>
 
 @{
     ViewData["Title"] = "Avaliar";
 }
 
-<h4>Justifique sua avaliação</h4>
+<h4 id="divImages">
+    Justifique sua avaliação
+    <img src="~/images/EmptyStar.png" alt="Star Rating" align="middle" id="1" class="rating" mid="@Model.IdPrestadorServico" />
+    <img src="~/images/EmptyStar.png" alt="Star Rating" align="middle" id="2" class="rating" mid="@Model.IdPrestadorServico" />
+    <img src="~/images/EmptyStar.png" alt="Star Rating" align="middle" id="3" class="rating" mid="@Model.IdPrestadorServico" />
+    <img src="~/images/EmptyStar.png" alt="Star Rating" align="middle" id="4" class="rating" mid="@Model.IdPrestadorServico" />
+    <img src="~/images/EmptyStar.png" alt="Star Rating" align="middle" id="5" class="rating" mid="@Model.IdPrestadorServico" />
+    <span STYLE="font-size:14px">
+        (@{
+        <span  class="avr">@Model.Nota</span>
+        })
+    </span><br />
+</h4>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -21,9 +36,9 @@
                 <input asp-for="DataAvaliado" class="form-control" />
                 <span asp-validation-for="DataAvaliado" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Nota" class="control-label"></label>
-                <input asp-for="Nota" class="form-control" />
+            <div class="form-group" type="hidden">
+                <label type="hidden"  asp-for="Nota" class="control-label"></label>
+                <input type="hidden" asp-for="Nota" class="form-control" />
                 <span asp-validation-for="Nota" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -32,3 +47,20 @@
         </form>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#divImages').each(function () {
+
+            var av = $(this).find("span.avr").text();
+
+            if (av != "" || av != null) {
+                // alert(av);
+                // fillRating(parseInt(av));
+                var img = $(this).find("img[id='" + parseInt(av) + "']");
+                img.attr("src", "/images/FilledStar.png").prevAll("img.rating").attr("src", "/images/FilledStar.png");
+            }
+
+        });
+    });
+</script>

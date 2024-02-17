@@ -130,7 +130,7 @@ namespace WebPrestadores.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Avaliar(int idPrestadorServico, [Bind("IdPrestadorServico,Observacao,Nota,DataAvaliado")] PrestadorServicoAvaliacaoViewModel prestadorServicoAvaliacao)
+        public async Task<IActionResult> Avaliar(int idPrestadorServico, PrestadorServicoAvaliacaoViewModel prestadorServicoAvaliacao)
         {
             if (idPrestadorServico != prestadorServicoAvaliacao.IdPrestadorServico)
             {
