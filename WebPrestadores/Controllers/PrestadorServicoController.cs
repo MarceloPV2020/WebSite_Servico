@@ -124,7 +124,8 @@ namespace WebPrestadores.Controllers
                 new PrestadorServicoAvaliacaoViewModel()
                 {
                     IdPrestadorServico = id,
-                    Nota = notaDefault ?? 0
+                    Nota = notaDefault ?? 0,
+                    DataAvaliado = DateTime.Now
                 });
         }
 

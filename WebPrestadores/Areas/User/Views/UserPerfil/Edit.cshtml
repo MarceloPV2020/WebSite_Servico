@@ -44,16 +44,11 @@
                 <span asp-validation-for="EnderecoCep" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="EnderecoCidade" class="control-label"></label>
-                <input asp-for="EnderecoCidade" class="form-control" />
-                <span asp-validation-for="EnderecoCidade" class="text-danger"></span>
+                <label asp-for="CidadeId" class="control-label"></label>
+                <select asp-for="CidadeId" class="form-control" asp-items="ViewBag.CidadeId"></select>
+                <span asp-validation-for="CidadeId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="EnderecoUf" class="control-label"></label>
-                <input asp-for="EnderecoUf" class="form-control" />
-                <span asp-validation-for="EnderecoUf" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+             <div class="form-group">
                 <label asp-for="Telefone" class="control-label"></label>
                 <input asp-for="Telefone" class="form-control" />
                 <span asp-validation-for="Telefone" class="text-danger"></span>

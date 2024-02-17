@@ -63,27 +63,18 @@ namespace WebPrestadores.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Usuario",
+                name: "Cidade",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nome = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Prestador = table.Column<bool>(type: "bit", nullable: false),
-                    Contabilidade = table.Column<bool>(type: "bit", nullable: false),
-                    AspNetUsersId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    EnderecoDescricao = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    EnderecoNumero = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    EnderecoBairro = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    EnderecoCep = table.Column<string>(type: "nvarchar(9)", maxLength: 9, nullable: false),
-                    EnderecoCidade = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    EnderecoUf = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false),
-                    Telefone = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
+                    Nome = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Uf = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false),
+                    CodigoIbge = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Usuario", x => x.Id);
+                    table.PrimaryKey("PK_Cidade", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -193,6 +184,35 @@ namespace WebPrestadores.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Usuario",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nome = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Prestador = table.Column<bool>(type: "bit", nullable: false),
+                    Contabilidade = table.Column<bool>(type: "bit", nullable: false),
+                    AspNetUsersId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EnderecoDescricao = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    EnderecoNumero = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    EnderecoBairro = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    EnderecoCep = table.Column<string>(type: "nvarchar(9)", maxLength: 9, nullable: false),
+                    Telefone = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    CidadeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Usuario", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Usuario_Cidade_CidadeId",
+                        column: x => x.CidadeId,
+                        principalTable: "Cidade",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PrestadorServico",
                 columns: table => new
                 {
@@ -201,7 +221,8 @@ namespace WebPrestadores.Migrations
                     Nome = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Descricao = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     ImagemUrl = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    PrestacaoCidade = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Telefone = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     CategoriaServicoId = table.Column<int>(type: "int", nullable: false),
                     UsuarioId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -247,6 +268,32 @@ namespace WebPrestadores.Migrations
                         name: "FK_PrestadorServicoAvaliacao_Usuario_UsuarioAvaliadorId",
                         column: x => x.UsuarioAvaliadorId,
                         principalTable: "Usuario",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PrestadorServicoCidade",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PrestadorServicoId = table.Column<int>(type: "int", nullable: false),
+                    CidadeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PrestadorServicoCidade", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PrestadorServicoCidade_Cidade_CidadeId",
+                        column: x => x.CidadeId,
+                        principalTable: "Cidade",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PrestadorServicoCidade_PrestadorServico_PrestadorServicoId",
+                        column: x => x.PrestadorServicoId,
+                        principalTable: "PrestadorServico",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -310,6 +357,21 @@ namespace WebPrestadores.Migrations
                 name: "IX_PrestadorServicoAvaliacao_UsuarioAvaliadorId",
                 table: "PrestadorServicoAvaliacao",
                 column: "UsuarioAvaliadorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PrestadorServicoCidade_CidadeId",
+                table: "PrestadorServicoCidade",
+                column: "CidadeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PrestadorServicoCidade_PrestadorServicoId",
+                table: "PrestadorServicoCidade",
+                column: "PrestadorServicoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Usuario_CidadeId",
+                table: "Usuario",
+                column: "CidadeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -333,6 +395,9 @@ namespace WebPrestadores.Migrations
                 name: "PrestadorServicoAvaliacao");
 
             migrationBuilder.DropTable(
+                name: "PrestadorServicoCidade");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -346,6 +411,9 @@ namespace WebPrestadores.Migrations
 
             migrationBuilder.DropTable(
                 name: "Usuario");
+
+            migrationBuilder.DropTable(
+                name: "Cidade");
         }
     }
 }

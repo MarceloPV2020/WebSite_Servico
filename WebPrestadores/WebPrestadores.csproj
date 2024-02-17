@@ -7,10 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Areas\Admin\Views\AdminCidade\Delete.cshtml" />
     <Content Remove="wwwroot\images\login.jpg" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Areas\Admin\Views\AdminCidade\Delete.cshtml" />
     <None Include="Areas\Admin\Views\AdminCategoriaServico\Create.cshtml" />
     <None Include="Areas\Admin\Views\AdminCategoriaServico\Delete.cshtml" />
     <None Include="Areas\Admin\Views\AdminCategoriaServico\Details.cshtml" />

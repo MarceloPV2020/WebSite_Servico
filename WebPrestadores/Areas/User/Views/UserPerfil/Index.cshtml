@@ -57,17 +57,11 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.EnderecoCep)
         </dd>
-                <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.EnderecoCidade)
+        <dt class="col-sm-2">
+            Cidade/UF
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.EnderecoCidade)
-        </dd>
-                <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.EnderecoUf)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.EnderecoUf)
+            @Model.Cidade.Nome.Trim() / @Model.Cidade.Uf
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Telefone)

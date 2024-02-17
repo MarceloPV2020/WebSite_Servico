@@ -12,7 +12,7 @@ using WebPrestadores.Context;
 namespace WebPrestadores.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240216144518_Migracao")]
+    [Migration("20240217170038_Migracao")]
     partial class Migracao
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -249,6 +249,32 @@ namespace WebPrestadores.Migrations
                     b.ToTable("CategoriaServico");
                 });
 
+            modelBuilder.Entity("WebPrestadores.Models.Cidade", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CodigoIbge")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Uf")
+                        .IsRequired()
+                        .HasMaxLength(2)
+                        .HasColumnType("nvarchar(2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Cidade");
+                });
+
             modelBuilder.Entity("WebPrestadores.Models.PrestadorServico", b =>
                 {
                     b.Property<int>("Id")
@@ -264,6 +290,11 @@ namespace WebPrestadores.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<string>("ImagemUrl")
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
@@ -273,10 +304,10 @@ namespace WebPrestadores.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("PrestacaoCidade")
+                    b.Property<string>("Telefone")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<int>("UsuarioId")
                         .HasColumnType("int");
@@ -325,6 +356,29 @@ namespace WebPrestadores.Migrations
                     b.ToTable("PrestadorServicoAvaliacao");
                 });
 
+            modelBuilder.Entity("WebPrestadores.Models.PrestadorServicoCidade", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CidadeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PrestadorServicoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CidadeId");
+
+                    b.HasIndex("PrestadorServicoId");
+
+                    b.ToTable("PrestadorServicoCidade");
+                });
+
             modelBuilder.Entity("WebPrestadores.Models.Usuario", b =>
                 {
                     b.Property<int>("Id")
@@ -335,6 +389,9 @@ namespace WebPrestadores.Migrations
 
                     b.Property<string>("AspNetUsersId")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CidadeId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("Contabilidade")
                         .HasColumnType("bit");
@@ -353,11 +410,6 @@ namespace WebPrestadores.Migrations
                         .HasMaxLength(9)
                         .HasColumnType("nvarchar(9)");
 
-                    b.Property<string>("EnderecoCidade")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
                     b.Property<string>("EnderecoDescricao")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -367,11 +419,6 @@ namespace WebPrestadores.Migrations
                         .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
-
-                    b.Property<string>("EnderecoUf")
-                        .IsRequired()
-                        .HasMaxLength(2)
-                        .HasColumnType("nvarchar(2)");
 
                     b.Property<string>("Nome")
                         .IsRequired()
@@ -386,6 +433,8 @@ namespace WebPrestadores.Migrations
                         .HasColumnType("nvarchar(25)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CidadeId");
 
                     b.ToTable("Usuario");
                 });
@@ -479,6 +528,36 @@ namespace WebPrestadores.Migrations
                     b.Navigation("UsuarioAvaliador");
                 });
 
+            modelBuilder.Entity("WebPrestadores.Models.PrestadorServicoCidade", b =>
+                {
+                    b.HasOne("WebPrestadores.Models.Cidade", "Cidade")
+                        .WithMany()
+                        .HasForeignKey("CidadeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebPrestadores.Models.PrestadorServico", "PrestadorServico")
+                        .WithMany("ListaPrestadorServicoCidade")
+                        .HasForeignKey("PrestadorServicoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cidade");
+
+                    b.Navigation("PrestadorServico");
+                });
+
+            modelBuilder.Entity("WebPrestadores.Models.Usuario", b =>
+                {
+                    b.HasOne("WebPrestadores.Models.Cidade", "Cidade")
+                        .WithMany()
+                        .HasForeignKey("CidadeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cidade");
+                });
+
             modelBuilder.Entity("WebPrestadores.Models.CategoriaServico", b =>
                 {
                     b.Navigation("PrestadoresServico");
@@ -487,6 +566,8 @@ namespace WebPrestadores.Migrations
             modelBuilder.Entity("WebPrestadores.Models.PrestadorServico", b =>
                 {
                     b.Navigation("ListaPrestadorServicoAvaliacao");
+
+                    b.Navigation("ListaPrestadorServicoCidade");
                 });
 
             modelBuilder.Entity("WebPrestadores.Models.Usuario", b =>

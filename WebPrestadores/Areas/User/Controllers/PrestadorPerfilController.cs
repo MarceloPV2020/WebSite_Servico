@@ -58,7 +58,6 @@ namespace WebPrestadores.Areas.User.Controllers
                         prestadorTemp.Nome = prestadorServico.Nome;
                         prestadorTemp.Descricao = prestadorServico.Descricao;
                         prestadorTemp.ImagemUrl = prestadorServico.ImagemUrl;
-                        prestadorTemp.PrestacaoCidade = prestadorServico.PrestacaoCidade;
                         prestadorTemp.CategoriaServicoId = prestadorServico.CategoriaServicoId;
                         _context.Update(prestadorTemp);
                     }

@@ -44,16 +44,6 @@ namespace WebPrestadores.Models
         [MaxLength(9, ErrorMessage = "Endereço - CEP deve possuir no máximo {1} caracteres!")]
         public string EnderecoCep { get; set; }
 
-        [Required(ErrorMessage = "O Endereço - Cidade deve ser informado!")]
-        [Display(Name = "Endereço - Cidade")]
-        [MaxLength(100, ErrorMessage = "Endereço - Cidade deve possuir no máximo {1} caracteres!")]
-        public string EnderecoCidade { get; set; }
-
-        [Required(ErrorMessage = "O Endereço - UF deve ser informado!")]
-        [Display(Name = "Endereço - UF")]
-        [MaxLength(2, ErrorMessage = "Endereço - UF deve possuir no máximo {1} caracteres!")]
-        public string EnderecoUf { get; set; }
-
         [StringLength(25)]
         [DataType(DataType.PhoneNumber)]
         public string Telefone { get; set; }
@@ -64,8 +54,13 @@ namespace WebPrestadores.Models
             ErrorMessage = "O email não possui um formato correto")]
         public string Email { get; set; }
 
-        public PrestadorServico PrestadorServico { get; set; }
+        [Required(ErrorMessage = "A cidade do usuário deve ser informada!")]
+        [Display(Name = "Cidade")]
+        public int CidadeId { get; set; }
+        public virtual Cidade Cidade { get; set; }
 
-        public List<PrestadorServicoAvaliacao> ListaPrestadorServicoAvaliacao { get; set; }
+        public virtual PrestadorServico PrestadorServico { get; set; }
+
+        public virtual List<PrestadorServicoAvaliacao> ListaPrestadorServicoAvaliacao { get; set; }
     }
 }

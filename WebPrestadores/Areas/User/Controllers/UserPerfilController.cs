@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebPrestadores.Context;
 using WebPrestadores.Models;
@@ -20,9 +21,9 @@ namespace WebPrestadores.Areas.User.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            Usuario usuario = _context.Usuario.FirstOrDefault(x => x.AspNetUsersId == _userManager.GetUserId(User));
+            Usuario usuario = _context.Usuario.Include(x => x.Cidade).FirstOrDefault(x => x.AspNetUsersId == _userManager.GetUserId(User));
             if (usuario == null)
             {
                 usuario =
@@ -33,12 +34,8 @@ namespace WebPrestadores.Areas.User.Controllers
                         EnderecoDescricao = "<Não Informado>",
                         EnderecoNumero = "SN",
                         EnderecoCep = "00000-000",
-                        EnderecoBairro = "<Não Informado>",
-                        EnderecoCidade = "<Não Informado>",
-                        EnderecoUf = "--",
+                        EnderecoBairro = "<Não Informado>"
                     };
-                _context.Add(usuario);
-                await _context.SaveChangesAsync();
             }
 
             return View(usuario);
@@ -46,22 +43,22 @@ namespace WebPrestadores.Areas.User.Controllers
 
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var usuario = await _context.Usuario.FindAsync(id);
+            Usuario usuario = await _context.Usuario.FindAsync(id);
             if (usuario == null)
             {
-                return NotFound();
+                usuario =
+                     new Usuario()
+                     {
+                         AspNetUsersId = _userManager.GetUserId(User)
+                     };
             }
+            ViewData["CidadeId"] = new SelectList(_context.Cidade, "Id", "Nome", usuario?.CidadeId ?? 0);
             return View(usuario);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,AspNetUsersId,EnderecoDescricao,Prestador,Contabilidade,EnderecoDescricao,EnderecoNumero,EnderecoBairro,EnderecoCep,EnderecoCidade,EnderecoUf")] Usuario usuario)
+        public async Task<IActionResult> Edit(int id, Usuario usuario)
         {
             if (id != usuario.Id)
             {
@@ -78,7 +75,15 @@ namespace WebPrestadores.Areas.User.Controllers
             {
                 try
                 {
-                    _context.Update(usuario);
+                    if (id == 0)
+                    {
+                        _context.Add(usuario);
+                    }
+                    else
+                    {
+                        _context.Update(usuario);
+                    }
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -94,6 +99,8 @@ namespace WebPrestadores.Areas.User.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
+            ViewData["CidadeId"] = new SelectList(_context.Cidade, "Id", "Nome", usuario?.CidadeId ?? 0);
             return View(usuario);
         }
 
