@@ -34,7 +34,7 @@ namespace WebPrestadores.Controllers
                     query = query.Where(x => x.ListaPrestadorServicoCidade.Any(y => y.CidadeId == idCidadeUsuario));
                 }
 
-                prestadoresServico = query.OrderBy(l => l.Id);
+                prestadoresServico = query.OrderBy(l => l.CategoriaServico.Nome).ThenBy(x => x.Nome);
                 categoriaAtual = "Todos os prestadores";
             }
             else
@@ -47,8 +47,7 @@ namespace WebPrestadores.Controllers
 
                 prestadoresServico = query
                          .Where(l => l.CategoriaServico.Nome.Equals(categoriaServico))
-                         .OrderBy(c => c.Nome);
-
+                         .OrderBy(l => l.CategoriaServico.Nome).ThenBy(x => x.Nome);
                 categoriaAtual = categoriaServico;
             }
 
@@ -77,7 +76,7 @@ namespace WebPrestadores.Controllers
                     query = query.Where(x => x.ListaPrestadorServicoCidade.Any(y => y.CidadeId == idCidadeUsuario));
                 }
 
-                prestadores = query.OrderBy(l => l.Id);
+                prestadores = query.OrderBy(l => l.CategoriaServico.Nome).ThenBy(x => x.Nome);
                 mensagem = "Todos os Prestadores";
             }
             else
@@ -88,7 +87,7 @@ namespace WebPrestadores.Controllers
                     query = query.Where(x => x.ListaPrestadorServicoCidade.Any(y => y.CidadeId == idCidadeUsuario));
                 }
 
-                prestadores = query.Where(p => p.Nome.ToLower().Contains(searchNomeString.ToLower()));
+                prestadores = query.Where(p => p.Nome.ToLower().Contains(searchNomeString.ToLower())).OrderBy(l => l.CategoriaServico.Nome).ThenBy(x => x.Nome);
                 if (prestadores.Any())
                     mensagem = "Prestadores";
                 else
@@ -118,7 +117,7 @@ namespace WebPrestadores.Controllers
                     query = query.Where(x => x.ListaPrestadorServicoCidade.Any(y => y.CidadeId == idCidadeUsuario));
                 }
 
-                prestadores = query.OrderBy(l => l.Id);
+                prestadores = query.OrderBy(l => l.CategoriaServico.Nome).ThenBy(x => x.Nome);
                 mensagem = "Todos os Prestadores";
             }
             else
@@ -129,7 +128,7 @@ namespace WebPrestadores.Controllers
                     query = query.Where(x => x.ListaPrestadorServicoCidade.Any(y => y.CidadeId == idCidadeUsuario));
                 }
 
-                prestadores = query.Where(p => p.CategoriaServico.Nome.ToLower().Contains(searchCategoriaString.ToLower()));
+                prestadores = query.Where(p => p.CategoriaServico.Nome.ToLower().Contains(searchCategoriaString.ToLower())).OrderBy(l => l.CategoriaServico.Nome).ThenBy(x => x.Nome);
                 if (prestadores.Any())
                     mensagem = "Prestadores";
                 else

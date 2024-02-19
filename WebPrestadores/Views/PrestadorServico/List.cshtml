@@ -1,29 +1,62 @@
 ﻿@model PrestadorServicoListViewModel
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/js/master.js"></script>
 
 <div>
     <h2>@Model.CategoriaServicoAtual</h2>
 </div>
 <hr />
 
-<div class="container">
-    <div class="row" >
-        @foreach (var prestador in Model.PrestadoresServico)
-        {
-            <partial name="_PrestadorServicoResumo" for="@prestador" />
-            @if ((bool?)ViewData["Usuario"] == true)
-            {
-                <div class="rating-star-block" id='div_4'><input type="hidden" class="articleID" value='4' />
-                    Avalie:
-                <a class="star outline" asp-controller="PrestadorServico" asp-action="Avaliar" asp-route-id="@prestador.Id" asp-route-notaDefault="1" rating="1" title="vote 1"> vote 1</a>
-                <a class="star outline" asp-controller="PrestadorServico" asp-action="Avaliar" asp-route-id="@prestador.Id" asp-route-notaDefault="2" rating="2" title="vote 2"> vote 2</a>
-                <a class="star outline" asp-controller="PrestadorServico" asp-action="Avaliar" asp-route-id="@prestador.Id" asp-route-notaDefault="3" rating="3" title="vote 3"> vote 3</a>
-                <a class="star outline" asp-controller="PrestadorServico" asp-action="Avaliar" asp-route-id="@prestador.Id" asp-route-notaDefault="4" rating="4" title="vote 4"> vote 4</a>
-                <a class="star outline" asp-controller="PrestadorServico" asp-action="Avaliar" asp-route-id="@prestador.Id" asp-route-notaDefault="5" rating="5" title="vote 5"> vote 5</a>                    
-            </div>
-            }                
-        }
+@foreach (var prestador in Model.PrestadoresServico)
+{
+    <div class="col-sm-4 col-md-4 col-lg-4">
+        <table class="table" id="tblAvaliacao" style="border: 0px; margin: 0px;">
+            <tbody>
+                <tr>
+                    <td style="border: 0px"><img src="@prestador.ImagemUrl" class="img-fluid"></td>
+                </tr>
+                <tr>
+                    <td style="border: 0px">
+                        <img src="~/images/EmptyStar.png" alt="Star Rating" align="middle" id="1" class="rating" mid="@prestador.Id" />
+                        <img src="~/images/EmptyStar.png" alt="Star Rating" align="middle" id="2" class="rating" mid="@prestador.Id" />
+                        <img src="~/images/EmptyStar.png" alt="Star Rating" align="middle" id="3" class="rating" mid="@prestador.Id" />
+                        <img src="~/images/EmptyStar.png" alt="Star Rating" align="middle" id="4" class="rating" mid="@prestador.Id" />
+                        <img src="~/images/EmptyStar.png" alt="Star Rating" align="middle" id="5" class="rating" mid="@prestador.Id" />
+                        @{
+                            if (prestador.AvaliacaoQuantidade > 0)
+                            {
+                                <span class="avr"> @prestador.Avaliacao</span>
+                            }
+                        }
+                        &nbsp;<a asp-area="" asp-controller="PrestadorServico" asp-action="ListaAvaliacao" asp-route-id="@prestador.Id">(@prestador.AvaliacaoQuantidade Avaliações)</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border: 0px; font-size:large">
+                        <b>@prestador.Nome</b>
+                    </td>
+                </tr>
+                <tr><td style="border: 0px">@prestador.Descricao  </td></tr>
+                <tr>
+                    <td style="border: 0px">
+                        @if ((bool?)ViewData["Usuario"] == true)
+                        {
+                            <div class="rating-star-block" id='div_4'>
+                                <input type="hidden" class="articleID" value='4' />
+                                Avalie:
+                                <a class="star outline" asp-controller="PrestadorServico" asp-action="Avaliar" asp-route-id="@prestador.Id" asp-route-notaDefault="1" rating="1" title="vote 1"> vote 1</a>
+                                <a class="star outline" asp-controller="PrestadorServico" asp-action="Avaliar" asp-route-id="@prestador.Id" asp-route-notaDefault="2" rating="2" title="vote 2"> vote 2</a>
+                                <a class="star outline" asp-controller="PrestadorServico" asp-action="Avaliar" asp-route-id="@prestador.Id" asp-route-notaDefault="3" rating="3" title="vote 3"> vote 3</a>
+                                <a class="star outline" asp-controller="PrestadorServico" asp-action="Avaliar" asp-route-id="@prestador.Id" asp-route-notaDefault="4" rating="4" title="vote 4"> vote 4</a>
+                                <a class="star outline" asp-controller="PrestadorServico" asp-action="Avaliar" asp-route-id="@prestador.Id" asp-route-notaDefault="5" rating="5" title="vote 5"> vote 5</a>
+                            </div>
+                        }
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-</div>
+}
 
 <style type="text/css">
     .rating-star-block .star.outline {
@@ -32,6 +65,11 @@
 
     .rating-star-block .star.filled {
         background: url("/images/FilledStar.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    }
+
+    table {
+        border-spacing: 0;
+        border-collapse: collapse;
     }
 
     .rating-star-block .star {
@@ -64,5 +102,13 @@
             $(this).addClass("filled");
             $("#RAT").html(hoverVal);
         });
+
+        $('#tblAvaliacao >  tbody  > tr ').each(function () {
+            var av = $(this).find("span.avr").text();
+            if (av != "" || av != null) {
+                var img = $(this).find("img[id='" + parseInt(av) + "']");
+                img.attr("src", "/images/FilledStar.png").prevAll("img.rating").attr("src", "/images/FilledStar.png");
+            }
+        });
     });
-    </script>
+</script>
