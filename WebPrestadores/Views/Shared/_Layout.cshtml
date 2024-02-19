@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -7,31 +9,32 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/WebPrestadores.styles.css" asp-append-version="true" />
-</head>
+    </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    Serviço Top
-                </a>
+                <a asp-area="" asp-controller="Home" asp-action="Index"><img src="~/images/Logotipo.png"></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    @await Html.PartialAsync("_LoginPartial")
                     @await Component.InvokeAsync("CategoriaServicoMenu")
-                    <form class="navbar-form navbar-right" asp-controller="PrestadorServico" asp-action="SearchPorNome" method="get">
+                    <form class="navbar-form" asp-controller="PrestadorServico" asp-action="SearchPorNome" method="get">
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="Procurar por Nome" name="searchNomeString" value="@ViewData["searchNomeString"]">
                         </div>
                     </form>
-                    <form class="navbar-form navbar-right" asp-controller="PrestadorServico" asp-action="SearchPorCategoria" method="get">
+                    <form class="navbar-form" asp-controller="PrestadorServico" asp-action="SearchPorCategoria" method="get">
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="Procurar por Categoria" name="searchCategoriaString" value="@ViewData["searchCategoriaString"]">
                         </div>
                     </form>
-                    @await Html.PartialAsync("_LoginPartial")
+
+                    <div class="navbar-collapse collapse d-sm-inline-flex">
+                    <form class="navbar-form">
                     @if(User.IsInRole("Admin"))
                     {
                         <a class="nav-link text-light" asp-area="Admin" asp-controller="Admin" asp-action="Index">Admin</a>
@@ -39,8 +42,10 @@
 
                     @if (User.IsInRole("User"))
                     {
-                        <a class="nav-link text-light" asp-area="User" asp-controller="User" asp-action="Index">Usuário</a>
+                        <a class="nav-link text-light" asp-area="User" asp-controller="User" asp-action="Index">Área do Usuário</a>
                     }
+                    </form>
+                    </div>
                 </div>
             </div>
         </nav>

@@ -1,12 +1,7 @@
 ﻿@model Usuario
 
-@{
-    ViewData["Title"] = "Alterar";
-}
+<h2>Alterar Usuário</h2>
 
-<h1>Alterar</h1>
-
-<h4>Usuário</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -48,7 +43,7 @@
                 <select asp-for="CidadeId" class="form-control" asp-items="ViewBag.CidadeId"></select>
                 <span asp-validation-for="CidadeId" class="text-danger"></span>
             </div>
-             <div class="form-group">
+            <div class="form-group">
                 <label asp-for="Telefone" class="control-label"></label>
                 <input asp-for="Telefone" class="form-control" />
                 <span asp-validation-for="Telefone" class="text-danger"></span>
@@ -60,28 +55,24 @@
             </div>
             <div class="row">
                 <div class="form-group col-sm-6">
-            <label class="control-label">Marcar como Contabilidade?</label>
-            <br />
-            <label class="form-check-label" style="padding-left: 20px">
+                    <label class="control-label">Marcar como Contabilidade?</label>
+                    <br />
+                    <label class="form-check-label" style="padding-left: 20px">
                         <input class="form-check-input" asp-for="Contabilidade" /> @Html.DisplayNameFor(model => model.Contabilidade)
-            </label>
-        </div>
-        <div class="form-group col-sm-6">
-            <label class="control-label">Marcar como um Prestador?</label>
-            <br />
-            <label class="form-check-label" style="padding-left: 20px">
+                    </label>
+                </div>
+                <div class="form-group col-sm-6">
+                    <label class="control-label">Marcar como um Prestador?</label>
+                    <br />
+                    <label class="form-check-label" style="padding-left: 20px">
                         <input class="form-check-input" asp-for="Prestador" /> @Html.DisplayNameFor(model => model.Prestador)
-            </label>
-        </div>
-    </div>
+                    </label>
+                </div>
+            </div>
             <div class="form-group">
-                <input type="submit" value="Salvar" class="btn btn-primary" />
+                <button type="submit" class="btn btn-success"><i class="glyphicon glyphicon-save"></i> Salvar </button>
+                <a action="action" class="btn btn-info" style="background-color:lightyellow" onclick="history.go(-1);"> <i class="glyphicon glyphicon-step-backward"></i> Voltar </a>
             </div>
         </form>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Voltar aos Dados do Usuário</a>
-</div>
-

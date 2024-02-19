@@ -1,9 +1,5 @@
 ﻿@model Usuario
 
-@{
-    ViewData["Title"] = "Dados do Usuário";
-}
-
 <h1>Dados do Usuário</h1>
 
 <div>
@@ -45,13 +41,13 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.EnderecoNumero)
         </dd>
-                <dt class="col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.EnderecoBairro)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.EnderecoBairro)
         </dd>
-                <dt class="col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.EnderecoCep)
         </dt>
         <dd class="col-sm-10">
@@ -75,8 +71,8 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Email)
         </dd>
-</dl>
+    </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Alterar</a>
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-info"> <i class="glyphicon glyphicon-pencil"></i> Alterar </a>
 </div>

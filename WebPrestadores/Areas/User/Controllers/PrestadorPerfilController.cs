@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebPrestadores.Context;
 using WebPrestadores.Models;
+using WebPrestadores.Repositories.Interfaces;
 
 namespace WebPrestadores.Areas.User.Controllers
 {
@@ -14,22 +15,24 @@ namespace WebPrestadores.Areas.User.Controllers
     {
         private readonly AppDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly IPrestadorServicoRepository _prestadorServicoRepository;
 
-        public PrestadorPerfilController(AppDbContext context, UserManager<IdentityUser> userManager)
+        public PrestadorPerfilController(AppDbContext context, UserManager<IdentityUser> userManager, IPrestadorServicoRepository prestadorServicoRepository)
         {
             _context = context;
             _userManager = userManager;
+            _prestadorServicoRepository = prestadorServicoRepository;
         }
 
         public IActionResult Index()
         {
-            var prestador = _context.PrestadorServico.FirstOrDefault(x => x.Usuario.AspNetUsersId == _userManager.GetUserId(User));
+            var prestador = _prestadorServicoRepository.Prestadores.FirstOrDefault(x => x.Usuario.AspNetUsersId == _userManager.GetUserId(User));
             return View(prestador);
         }
 
         public IActionResult Edit(int? id)
         {
-            var prestador = _context.PrestadorServico.FirstOrDefault(x => x.Usuario.AspNetUsersId == _userManager.GetUserId(User)) ?? new PrestadorServico();
+            var prestador = _prestadorServicoRepository.Prestadores.FirstOrDefault(x => x.Usuario.AspNetUsersId == _userManager.GetUserId(User)) ?? new PrestadorServico();
             ViewData["CategoriaId"] = new SelectList(_context.CategoriaServico, "Id", "Nome", prestador?.CategoriaServicoId ?? 0);
             return View(prestador);
         }
@@ -59,6 +62,8 @@ namespace WebPrestadores.Areas.User.Controllers
                         prestadorTemp.Descricao = prestadorServico.Descricao;
                         prestadorTemp.ImagemUrl = prestadorServico.ImagemUrl;
                         prestadorTemp.CategoriaServicoId = prestadorServico.CategoriaServicoId;
+                        prestadorTemp.Telefone = prestadorServico.Telefone;
+                        prestadorTemp.Email = prestadorServico.Email;
                         _context.Update(prestadorTemp);
                     }
 
@@ -81,15 +86,9 @@ namespace WebPrestadores.Areas.User.Controllers
             return View(prestadorServico);
         }
 
-        public async Task<IActionResult> ListaAvaliacao(int id)
+        public IActionResult ListaAvaliacao(int id)
         {
-            var prestadorTemp = await _context.PrestadorServico
-                .Include(x => x.CategoriaServico)
-                .FirstOrDefaultAsync(x => x.Id == id);
-            prestadorTemp.ListaPrestadorServicoAvaliacao = await _context.PrestadorServicoAvaliacao
-                .Include(x => x.UsuarioAvaliador)
-                .Where(x => x.PrestadorServicoId == id)
-                .ToListAsync();
+            var prestadorTemp = _prestadorServicoRepository.Prestadores.FirstOrDefault(x => x.Id == id);
             return View(prestadorTemp);
         }
 
@@ -98,10 +97,9 @@ namespace WebPrestadores.Areas.User.Controllers
             return _context.PrestadorServico.Any(e => e.Id == id);
         }
 
-        public async Task<IActionResult> IndexCidade(int idPrestacaoServico)
+        public IActionResult IndexCidade(int idPrestacaoServico)
         {
-            var prestador = await _context.PrestadorServico.FindAsync(idPrestacaoServico);
-            prestador.ListaPrestadorServicoCidade = await _context.PrestadorServicoCidade.Include(x => x.Cidade).Where(x => x.PrestadorServicoId == idPrestacaoServico).ToListAsync();
+            var prestador = _prestadorServicoRepository.Prestadores.FirstOrDefault(x => x.Id == idPrestacaoServico);
             return View(prestador);
         }
 
@@ -128,7 +126,7 @@ namespace WebPrestadores.Areas.User.Controllers
             {
                 try
                 {
-                    var prestador = await _context.PrestadorServico.FindAsync(PrestadorServicoId);
+                    var prestador = _prestadorServicoRepository.Prestadores.FirstOrDefault(x => x.Id == PrestadorServicoId);
                     prestador.ListaPrestadorServicoCidade.Add(
                         new PrestadorServicoCidade()
                         {
@@ -163,8 +161,7 @@ namespace WebPrestadores.Areas.User.Controllers
                 return NotFound();
             }
 
-            var cidade = await _context.PrestadorServicoCidade
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var cidade = await _context.PrestadorServicoCidade.FirstOrDefaultAsync(m => m.Id == id);
             if (cidade == null)
             {
                 return NotFound();

@@ -1,9 +1,5 @@
 ﻿@model PrestadorServico
 
-@{
-    ViewData["Title"] = "Dados do Prestador do Serviço";
-}
-
 <h1>Dados do Prestador do Serviço</h1>
 
 <div>
@@ -30,10 +26,10 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Alterar</a>
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-info"> <i class="glyphicon glyphicon-pencil"></i> Alterar </a>
     @if(Model?.Id>0)
     {
-        <a asp-action="IndexCidade" asp-route-idPrestacaoServico="@Model?.Id">Cidades de abrangência</a>
-        <a asp-action="ListaAvaliacao" asp-route-id="@Model?.Id">Visualizar as avaliações</a>
+        <a asp-action="IndexCidade" asp-route-idPrestacaoServico="@Model?.Id" class="btn btn-info" style="background-color:lightyellow"> <i class="glyphicon glyphicon-th-list"></i> Cidades de abrangência </a>
+        <a asp-action="ListaAvaliacao" asp-route-id="@Model?.Id" class="btn btn-info" style="background-color:lightyellow"> <i class="glyphicon glyphicon-star"></i> Visualizar as avaliações </a>
     }        
 </div>

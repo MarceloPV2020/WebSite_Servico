@@ -94,8 +94,7 @@ namespace WebPrestadores.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var cidade = await _context.Cidade
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var cidade = await _context.Cidade.FirstOrDefaultAsync(m => m.Id == id);
             if (cidade == null)
             {
                 return NotFound();

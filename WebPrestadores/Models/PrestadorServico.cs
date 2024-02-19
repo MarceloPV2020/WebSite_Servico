@@ -15,7 +15,7 @@ namespace WebPrestadores.Models
         [MaxLength(100, ErrorMessage = "Nome deve possuir no máximo {1} caracteres!")]
         public string Nome { get; set; }
 
-        [Display(Name = "Descrição")]
+        [Display(Name = "Descrição do Serviço")]
         [MaxLength(200, ErrorMessage = "Descrição deve possuir no máximo {1} caracteres!")]
         public string Descricao { get; set; }
 
@@ -36,6 +36,7 @@ namespace WebPrestadores.Models
         public string Email { get; set; }
 
         [Required(ErrorMessage = "A categoria de serviço deve ser informado!")]
+        [Display(Name = "Categoria")]
         public int CategoriaServicoId { get; set; }
         public virtual CategoriaServico CategoriaServico { get; set; }
 

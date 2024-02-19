@@ -17,7 +17,7 @@ namespace WebPrestadores.Repositories
         {
             get
             {
-                var prestadorTemp = _context.PrestadorServico.Include(c => c.CategoriaServico);
+                var prestadorTemp = _context.PrestadorServico.Include(c => c.CategoriaServico).Include(x => x.Usuario);
                 foreach (var item in prestadorTemp)
                 {
                     item.ListaPrestadorServicoAvaliacao = _context.PrestadorServicoAvaliacao

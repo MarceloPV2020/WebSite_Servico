@@ -1,12 +1,7 @@
 ﻿@model CategoriaServico
 
-@{
-    ViewData["Title"] = "Alterar";
-}
+<h2>Alterar Categoria de Serviço</h2>
 
-<h1>Alterar</h1>
-
-<h4>Categoria de Serviço</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -24,13 +19,9 @@
                 <span asp-validation-for="Descricao" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Salvar" class="btn btn-primary" />
+                <button type="submit" class="btn btn-success"><i class="glyphicon glyphicon-save"></i> Salvar </button>
+                <a action="action" class="btn btn-info" style="background-color:lightyellow" onclick="history.go(-1);"> <i class="glyphicon glyphicon-step-backward"></i> Voltar </a>
             </div>
         </form>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Voltar à Lista</a>
-</div>
-

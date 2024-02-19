@@ -22,22 +22,6 @@ namespace WebPrestadores.Areas.Admin.Controllers
             return View(await _context.CategoriaServico.ToListAsync());
         }
 
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var categoriaServico = await _context.CategoriaServico.FirstOrDefaultAsync(m => m.Id == id);
-            if (categoriaServico == null)
-            {
-                return NotFound();
-            }
-
-            return View(categoriaServico);
-        }
-
         public IActionResult Create()
         {
             return View();
