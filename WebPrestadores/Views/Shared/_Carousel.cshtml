@@ -4,20 +4,32 @@
 @using WebPrestadores.Repositories.Interfaces;
 @inject IPrestadorServicoRepository _prestadorServicoRepository;
 @inject UserManager<IdentityUser> _userManager;
+@{
+    var prestador = _prestadorServicoRepository.GetPrestadorServicoListViewModel(_userManager.GetUserId(User), "")?.PrestadoresServico.ToList();
+}
 
-<div id="carouselProfissao" class="carousel slide" data-bs-ride="carousel">
+<div id="carouselLanches" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
-        @foreach (var item in _prestadorServicoRepository.GetPrestadorServicoListViewModel(_userManager.GetUserId(User), "")?.PrestadoresServico)
+        @for (int i = 0; i < prestador.Count; i++)
         {
-            <partial name="_PrestadorResumo" for="@item" />
+            var active = i == 1 ? "active" : "";
+            <div class="carousel-item @active">
+                <partial name="_PrestadorResumo" for="@prestador[i]">
+            </div>
         }
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselPrestadores" data-bs-slide="prev">
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselLanches" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Anterior</span>
+        <span class="visually-hidden">Previous</span>
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselPrestadores" data-bs-slide="next">
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselLanches" data-bs-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Próximo</span>
+        <span class="visually-hidden">Next</span>
     </button>
 </div>
+
+<style>
+    .carousel-item {
+        text-align: center;
+    }
+</style>
