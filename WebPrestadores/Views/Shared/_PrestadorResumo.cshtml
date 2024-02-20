@@ -1,0 +1,106 @@
+﻿@model PrestadorServico
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/js/master.js"></script>
+
+<table class="table" id="tblAvaliacao" style="border: 0px; margin: 0px;">
+    <tbody>
+        <tr>
+            <td style="border: 0px"><img src="@Model.ImagemUrl" class="img-fluid"></td>
+        </tr>
+        <tr>
+            <td style="border: 0px">
+                <img src="~/images/EmptyStar.png" alt="Star Rating" align="middle" id="1" class="rating" mid="@Model.Id" />
+                <img src="~/images/EmptyStar.png" alt="Star Rating" align="middle" id="2" class="rating" mid="@Model.Id" />
+                <img src="~/images/EmptyStar.png" alt="Star Rating" align="middle" id="3" class="rating" mid="@Model.Id" />
+                <img src="~/images/EmptyStar.png" alt="Star Rating" align="middle" id="4" class="rating" mid="@Model.Id" />
+                <img src="~/images/EmptyStar.png" alt="Star Rating" align="middle" id="5" class="rating" mid="@Model.Id" />
+                @{
+                    if (Model.AvaliacaoQuantidade > 0)
+                    {
+                        <span class="avr"> @Model.Avaliacao</span>
+                    }
+                }
+                &nbsp;<a asp-area="" asp-controller="PrestadorServico" asp-action="ListaAvaliacao" asp-route-id="@Model.Id">(@Model.AvaliacaoQuantidade Avaliações)</a>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 0px; font-size:large">
+                <b>@Model.Nome</b>
+            </td>
+        </tr>
+        <tr><td style="border: 0px">@Model.Descricao  </td></tr>
+        <tr>
+            <td style="border: 0px">
+                @if ((bool?)ViewData["Usuario"] == true)
+                {
+                    <div class="rating-star-block" id='div_4'>
+                        <input type="hidden" class="articleID" value='4' />
+                        Avalie:
+                        <a class="star outline" asp-controller="PrestadorServico" asp-action="Avaliar" asp-route-id="@Model.Id" asp-route-notaDefault="1" rating="1" title="vote 1"> vote 1</a>
+                        <a class="star outline" asp-controller="PrestadorServico" asp-action="Avaliar" asp-route-id="@Model.Id" asp-route-notaDefault="2" rating="2" title="vote 2"> vote 2</a>
+                        <a class="star outline" asp-controller="PrestadorServico" asp-action="Avaliar" asp-route-id="@Model.Id" asp-route-notaDefault="3" rating="3" title="vote 3"> vote 3</a>
+                        <a class="star outline" asp-controller="PrestadorServico" asp-action="Avaliar" asp-route-id="@Model.Id" asp-route-notaDefault="4" rating="4" title="vote 4"> vote 4</a>
+                        <a class="star outline" asp-controller="PrestadorServico" asp-action="Avaliar" asp-route-id="@Model.Id" asp-route-notaDefault="5" rating="5" title="vote 5"> vote 5</a>
+                    </div>
+                }
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+<style type="text/css">
+    .rating-star-block .star.outline {
+        background: url("/images/EmptyStar.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    }
+
+    .rating-star-block .star.filled {
+        background: url("/images/FilledStar.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    }
+
+    table {
+        border-spacing: 0;
+        border-collapse: collapse;
+    }
+
+    .rating-star-block .star {
+        color: rgba(0,0,0,0);
+        display: inline-block;
+        height: 16px;
+        overflow: hidden;
+        text-indent: -999em;
+        width: 24px;
+    }
+
+    a {
+        color: #005782;
+        text-decoration: none;
+    }
+</style>
+
+<script src="Scripts/jquery-1.7.1.js"></script>
+<script language="javascript" type="text/javascript">
+    $(document).ready(function () {
+        $(".rating-star-block .star").mouseleave(function () {
+            $("#" + $(this).parent().attr('id') + " .star").each(function () {
+                $(this).addClass("outline");
+                $(this).removeClass("filled");
+            });
+        });
+        $(".rating-star-block .star").mouseenter(function () {
+            var hoverVal = $(this).attr('rating');
+            $(this).prevUntil().addClass("filled");
+            $(this).addClass("filled");
+            $("#RAT").html(hoverVal);
+        });
+
+        $('#tblAvaliacao >  tbody  > tr ').each(function () {
+            var av = $(this).find("span.avr").text();
+            if (av != "" || av != null) {
+                var img = $(this).find("img[id='" + parseInt(av) + "']");
+                img.attr("src", "/images/FilledStar.png").prevAll("img.rating").attr("src", "/images/FilledStar.png");
+            }
+        });
+    });
+</script>

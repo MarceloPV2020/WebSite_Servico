@@ -22,126 +22,23 @@ namespace WebPrestadores.Controllers
 
         public IActionResult List(string categoriaServico)
         {
-            IEnumerable<PrestadorServico> prestadoresServico;
-            string categoriaAtual = string.Empty;
-            int idCidadeUsuario = _context.Usuario.FirstOrDefault(x => x.AspNetUsersId == _userManager.GetUserId(User))?.CidadeId ?? 0;
-
-            if (string.IsNullOrEmpty(categoriaServico))
-            {
-                var query = _prestadorServicoRepository.Prestadores;
-                if (idCidadeUsuario > 0)
-                {
-                    query = query.Where(x => x.ListaPrestadorServicoCidade.Any(y => y.CidadeId == idCidadeUsuario));
-                }
-
-                prestadoresServico = query.OrderBy(l => l.CategoriaServico.Nome).ThenBy(x => x.Nome);
-                categoriaAtual = "Todos os prestadores";
-            }
-            else
-            {
-                var query = _prestadorServicoRepository.Prestadores;
-                if (idCidadeUsuario > 0)
-                {
-                    query = query.Where(x => x.ListaPrestadorServicoCidade.Any(y => y.CidadeId == idCidadeUsuario));
-                }
-
-                prestadoresServico = query
-                         .Where(l => l.CategoriaServico.Nome.Equals(categoriaServico))
-                         .OrderBy(l => l.CategoriaServico.Nome).ThenBy(x => x.Nome);
-                categoriaAtual = categoriaServico;
-            }
-
-            var prestadoresListViewModel =
-                new PrestadorServicoListViewModel
-                {
-                    PrestadoresServico = prestadoresServico,
-                    CategoriaServicoAtual = categoriaAtual
-                };
-
-            ViewData["Usuario"] = _context.Usuario.FirstOrDefault(x => x.AspNetUsersId == _userManager.GetUserId(User)) != null;
-            return View(prestadoresListViewModel);
+            string aspNetUsersId = _userManager.GetUserId(User);
+            ViewData["Usuario"] = _context.Usuario.FirstOrDefault(x => x.AspNetUsersId == aspNetUsersId) != null;
+            return View(_prestadorServicoRepository.GetPrestadorServicoListViewModel(aspNetUsersId, categoriaServico));
         }
 
         public ViewResult SearchPorNome(string searchNomeString)
         {
-            IEnumerable<PrestadorServico> prestadores;
-            string mensagem = string.Empty;
-            int idCidadeUsuario = _context.Usuario.FirstOrDefault(x => x.AspNetUsersId == _userManager.GetUserId(User))?.CidadeId ?? 0;
-
-            if (string.IsNullOrEmpty(searchNomeString))
-            {
-                var query = _prestadorServicoRepository.Prestadores;
-                if (idCidadeUsuario > 0)
-                {
-                    query = query.Where(x => x.ListaPrestadorServicoCidade.Any(y => y.CidadeId == idCidadeUsuario));
-                }
-
-                prestadores = query.OrderBy(l => l.CategoriaServico.Nome).ThenBy(x => x.Nome);
-                mensagem = "Todos os Prestadores";
-            }
-            else
-            {
-                var query = _prestadorServicoRepository.Prestadores;
-                if (idCidadeUsuario > 0)
-                {
-                    query = query.Where(x => x.ListaPrestadorServicoCidade.Any(y => y.CidadeId == idCidadeUsuario));
-                }
-
-                prestadores = query.Where(p => p.Nome.ToLower().Contains(searchNomeString.ToLower())).OrderBy(l => l.CategoriaServico.Nome).ThenBy(x => x.Nome);
-                if (prestadores.Any())
-                    mensagem = "Prestadores";
-                else
-                    mensagem = "Nenhum prestador foi encontrado";
-            }
-
             return View
                 ("~/Views/PrestadorServico/List.cshtml",
-                new PrestadorServicoListViewModel
-                {
-                    PrestadoresServico = prestadores,
-                    CategoriaServicoAtual = mensagem
-                });
+                _prestadorServicoRepository.GetPrestadorServicoListViewModelBySearchNome(_userManager.GetUserId(User), searchNomeString));
         }
 
         public ViewResult SearchPorCategoria(string searchCategoriaString)
         {
-            IEnumerable<PrestadorServico> prestadores;
-            string mensagem = string.Empty;
-            int idCidadeUsuario = _context.Usuario.FirstOrDefault(x => x.AspNetUsersId == _userManager.GetUserId(User))?.CidadeId ?? 0;
-
-            if (string.IsNullOrEmpty(searchCategoriaString))
-            {
-                var query = _prestadorServicoRepository.Prestadores;
-                if (idCidadeUsuario > 0)
-                {
-                    query = query.Where(x => x.ListaPrestadorServicoCidade.Any(y => y.CidadeId == idCidadeUsuario));
-                }
-
-                prestadores = query.OrderBy(l => l.CategoriaServico.Nome).ThenBy(x => x.Nome);
-                mensagem = "Todos os Prestadores";
-            }
-            else
-            {
-                var query = _prestadorServicoRepository.Prestadores;
-                if (idCidadeUsuario > 0)
-                {
-                    query = query.Where(x => x.ListaPrestadorServicoCidade.Any(y => y.CidadeId == idCidadeUsuario));
-                }
-
-                prestadores = query.Where(p => p.CategoriaServico.Nome.ToLower().Contains(searchCategoriaString.ToLower())).OrderBy(l => l.CategoriaServico.Nome).ThenBy(x => x.Nome);
-                if (prestadores.Any())
-                    mensagem = "Prestadores";
-                else
-                    mensagem = "Nenhum prestador foi encontrado";
-            }
-
             return View
                 ("~/Views/PrestadorServico/List.cshtml",
-                new PrestadorServicoListViewModel
-                {
-                    PrestadoresServico = prestadores,
-                    CategoriaServicoAtual = mensagem
-                });
+                _prestadorServicoRepository.GetPrestadorServicoListViewModelBySearchNome(_userManager.GetUserId(User), searchCategoriaString));
         }
 
         public async Task<IActionResult> ListaAvaliacao(int id)
