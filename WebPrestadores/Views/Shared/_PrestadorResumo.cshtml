@@ -29,7 +29,8 @@
                 <b>@Model.Nome</b>
             </td>
         </tr>
-        <tr><td style="border: 0px;padding-top:0px">@Model.Descricao  </td></tr>
+        <tr><td style="border: 0px;padding-bottom:0px;padding-top:0px">@Model.Descricao  </td></tr>
+        <tr><td style="border: 0px;padding-top:0px">@Model.Telefone - @Model.Email </td></tr>
         <tr>
             <td style="border: 0px;padding-top:0px">
                 @if ((bool?)ViewData["Usuario"] == true)
