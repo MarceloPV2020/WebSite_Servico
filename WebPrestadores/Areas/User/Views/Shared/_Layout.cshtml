@@ -20,8 +20,15 @@
             <div class="container">
                 <a asp-area="" asp-controller="Home" asp-action="Index"><img src="~/images/Logotipo.png"></a>
                 <div class="navbar-collapse collapse d-sm-inline-flex">
-                    <a class="nav-link text-light" asp-area="User" asp-controller="User" asp-action="Index">Área do Usuário</a>
-                 </div>
+                     @if (_context.Usuario.FirstOrDefault(x => x.AspNetUsersId == _userManager.GetUserId(User))?.Prestador == true)
+                    {
+                        <a class="nav-link text-light" asp-area="User" asp-controller="User" asp-action="Index">Área do Prestador</a>
+                    }
+                    else
+                    {
+                        <a class="nav-link text-light" asp-area="User" asp-controller="User" asp-action="Index">Área do Usuário</a>
+                    }
+                    </div>
                 <div class="navbar-collapse collapse d-sm-inline-flex">
                     <a class="nav-link text-light" asp-area="User" asp-controller="UserPerfil" asp-action="Index">Dados do Usuário</a>
                     @if (_context.Usuario.FirstOrDefault(x => x.AspNetUsersId == _userManager.GetUserId(User))?.Contabilidade == true)
