@@ -1,5 +1,8 @@
-﻿<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-
+﻿@using Microsoft.AspNetCore.Identity;
+@using WebPrestadores.Context;
+@inject UserManager<IdentityUser> _userManager;
+@inject AppDbContext _context;
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +12,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/WebPrestadores.styles.css" asp-append-version="true" />
-    </head>
+</head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
@@ -32,19 +35,27 @@
                             <input type="text" class="form-control" placeholder="Procurar por Categoria" name="searchCategoriaString" value="@ViewData["searchCategoriaString"]">
                         </div>
                     </form>
-
                     <div class="navbar-collapse collapse d-sm-inline-flex">
-                    <form class="navbar-form">
-                    @if(User.IsInRole("Admin"))
-                    {
-                        <a class="nav-link text-light" asp-area="Admin" asp-controller="Admin" asp-action="Index">Admin</a>
-                    }
+                        <form class="navbar-form">
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a class="nav-link text-light" asp-area="Admin" asp-controller="Admin" asp-action="Index">Admin</a>
+                            }
 
-                    @if (User.IsInRole("User"))
-                    {
-                        <a class="nav-link text-light" asp-area="User" asp-controller="User" asp-action="Index">Área do Usuário</a>
-                    }
-                    </form>
+                            @if (User.IsInRole("User"))                           {
+                                @if (_context.Usuario.FirstOrDefault(x => x.AspNetUsersId == _userManager.GetUserId(User))?.Prestador == true)                                {
+                                    <a class="nav-link text-light" asp-area="User" asp-controller="User" asp-action="Index">Área do Prestador</a>
+                                }
+                                else
+                                @if (_context.Usuario.FirstOrDefault(x => x.AspNetUsersId == _userManager.GetUserId(User))?.Contabilidade == true)
+                                {
+                                    <a class="nav-link text-light" asp-area="User" asp-controller="User" asp-action="Index">Área da Contabilidade</a>
+                                }
+                                else                                {
+                                    <a class="nav-link text-light" asp-area="User" asp-controller="User" asp-action="Index">Área do Usuário</a>
+                                }
+                            }
+                        </form>
                     </div>
                 </div>
             </div>

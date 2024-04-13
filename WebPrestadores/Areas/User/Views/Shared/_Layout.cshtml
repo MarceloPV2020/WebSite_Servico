@@ -25,6 +25,11 @@
                         <a class="nav-link text-light" asp-area="User" asp-controller="User" asp-action="Index">Área do Prestador</a>
                     }
                     else
+                    @if (_context.Usuario.FirstOrDefault(x => x.AspNetUsersId == _userManager.GetUserId(User))?.Contabilidade == true)
+                    {
+                        <a class="nav-link text-light" asp-area="User" asp-controller="User" asp-action="Index">Área da Contabilidade</a>
+                    }
+                    else
                     {
                         <a class="nav-link text-light" asp-area="User" asp-controller="User" asp-action="Index">Área do Usuário</a>
                     }

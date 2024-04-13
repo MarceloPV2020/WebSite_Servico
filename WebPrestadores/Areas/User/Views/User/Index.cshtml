@@ -1,9 +1,26 @@
-﻿<br />
+﻿@using Microsoft.AspNetCore.Identity;
+@using WebPrestadores.Context;
+@inject UserManager<IdentityUser> _userManager;
+@inject AppDbContext _context;
+
+<br />
 <img src="~/images/user.png" alt="Àrea do Usuário" class="marginTop1" />
 <div class="container">
     <div class="jumbotron">
         <p>
-            <h2>Área do Usuário</h2>
+            @if (_context.Usuario.FirstOrDefault(x => x.AspNetUsersId == _userManager.GetUserId(User))?.Prestador == true)
+            {
+                <h2>Área do Prestador</h2>
+            }
+            else
+            @if (_context.Usuario.FirstOrDefault(x => x.AspNetUsersId == _userManager.GetUserId(User))?.Contabilidade == true)
+            {
+                <h2>Área da Contabilidade</h2>
+            }
+            else
+            {
+                <h2>Área do Usuário</h2>
+            }
         </p>
     </div>
 </div>
